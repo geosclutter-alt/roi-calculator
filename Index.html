@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Property ROI Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #2D6A4F;
+  --green-light: #52B788;
+  --green-pale: #D8F3DC;
+  --amber: #C77B2E;
+  --amber-pale: #FEF3E2;
+  --red: #C0392B;
+  --red-pale: #FDEDEB;
+  --ink: #1A1A1A;
+  --ink-2: #444;
+  --ink-3: #777;
+  --ink-4: #AAA;
+  --surface: #F2F0EB;
+  --white: #FEFEFE;
+  --border: #E0DDD6;
+  --border-strong: #C8C4BB;
+  --sans: 'DM Sans', sans-serif;
+  --serif: 'DM Serif Display', serif;
+  --mono: 'DM Mono', monospace;
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--surface);
+  color: var(--ink);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ── Header ── */
+header {
+  background: var(--green);
+  color: var(--white);
+  padding: 1.5rem 1rem 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -70px; right: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  pointer-events: none;
+}
+header h1 {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: .2rem;
+  position: relative;
+}
+header p {
+  font-size: 12.5px;
+  opacity: .75;
+  font-weight: 300;
+  position: relative;
+}
+
+/* ── Sticky results bar ── */
+.sticky-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--green);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  border-bottom: 2px solid rgba(255,255,255,0.15);
+}
+.sticky-metric {
+  padding: .55rem .5rem .5rem;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+.sticky-metric:last-child { border-right: none; }
+.sticky-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+  display: block;
+  margin-bottom: 1px;
+}
+.sticky-value {
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: white;
+  display: block;
+  line-height: 1;
+}
+.sticky-badge {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 7px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-top: 3px;
+}
+.sb-go { background: rgba(82,183,136,.3); color: #B7E4C7; }
+.sb-no { background: rgba(192,57,43,.3); color: #FDEDEB; }
+.sb-na { background: rgba(255,255,255,.1); color: rgba(255,255,255,.4); }
+
+/* ── Main layout ── */
+main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
+
+/* ── Collapsible sections ── */
+.section { margin-bottom: .625rem; }
+
+.sec-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: .8rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background .15s, border-radius .2s;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+}
+.sec-toggle.open {
+  border-radius: 12px 12px 0 0;
+  border-bottom-color: transparent;
+}
+.sec-toggle:active { background: var(--surface); }
+
+.sec-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sec-title {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--ink);
+  flex: 1;
+}
+.sec-summary {
+  font-size: 11px;
+  color: var(--ink-4);
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.sec-chevron {
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+  color: var(--ink-4);
+  transition: transform .25s ease;
+}
+.sec-toggle.open .sec-chevron { transform: rotate(180deg); }
+
+.sec-body {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .3s ease;
+}
+.sec-body.open { max-height: 9999px; }
+.sec-inner { padding: 1rem; }
+
+/* ── Scenario tabs ── */
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--white);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.tab.active { background: var(--green); border-color: var(--green); color: white; }
+
+/* ── Fields ── */
+.field { display: flex; flex-direction: column; gap: 5px; margin-bottom: .875rem; }
+.field:last-child { margin-bottom: 0; }
+.field label { font-size: 13px; font-weight: 500; color: var(--ink-2); }
+.field input {
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 15px;
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.field input:focus {
+  outline: none;
+  border-color: var(--green-light);
+  box-shadow: 0 0 0 3px rgba(82,183,136,.18);
+  background: var(--white);
+}
+.field input.ig { border-left: 3px solid var(--green-light); background: #F6FBF7; }
+.field input.ig:focus { background: var(--white); }
+.field .hint { font-size: 11.5px; color: var(--ink-4); line-height: 1.4; }
+
+/* ── Field group divider ── */
+.field-group-title {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin: 1.1rem 0 .6rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--border);
+}
+.field-group-title:first-child { margin-top: 0; }
+
+/* ── Auto-calc rows ── */
+.ac-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.ac-row:last-child { border-bottom: none; }
+.ac-label { font-size: 13px; color: var(--ink-2); flex: 1; }
+.ac-hint { font-size: 11px; color: var(--ink-4); display: block; margin-top: 2px; line-height: 1.35; }
+.ac-val { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--ink); white-space: nowrap; padding-left: 8px; }
+.ac-val.bold { font-weight: 600; }
+
+/* ── Result cards (stacked on mobile) ── */
+.result-stack { display: flex; flex-direction: column; gap: .75rem; }
+.result-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  position: relative;
+  overflow: hidden;
+}
+.result-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--border);
+}
+.result-card.go::before { background: var(--green-light); }
+.result-card.no::before { background: #F87171; }
+.result-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: .5rem;
+}
+.result-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.result-value {
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  color: var(--ink);
+  line-height: 1;
+  margin: .25rem 0 .4rem;
+}
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.result-desc { font-size: 12px; color: var(--ink-3); line-height: 1.4; flex: 1; }
+.result-thresh { font-size: 11px; color: var(--ink-4); text-align: right; white-space: nowrap; }
+.verdict-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: .5rem;
+}
+.badge-go { background: var(--green-pale); color: var(--green); }
+.badge-no { background: var(--red-pale); color: var(--red); }
+.badge-neutral { background: var(--amber-pale); color: var(--amber); }
+
+/* ── Operating summary ── */
+.op-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.op-row:last-child { border-bottom: none; }
+.op-left { flex: 1; min-width: 0; }
+.op-label { font-size: 13px; font-weight: 500; color: var(--ink); }
+.op-help { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; line-height: 1.35; }
+.op-val {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  min-width: 80px;
+  text-align: right;
+  white-space: nowrap;
+  padding-left: 8px;
+}
+.op-val.neg { color: var(--red); }
+.op-subtotal {
+  background: #F6FBF7;
+  margin: 0 -1rem;
+  padding: 9px 1rem;
+}
+.op-subtotal .op-label { color: var(--green); font-weight: 600; font-size: 13.5px; }
+.op-subtotal .op-val { color: var(--green); font-weight: 600; }
+.op-spacer { height: 10px; }
+.op-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  padding: 8px 0 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--ink-4);
+  padding: 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ── Util ── */
+.hidden { display: none !important; }
+
+/* ── Desc text ── */
+.sec-desc {
+  font-size: 12.5px;
+  color: var(--ink-3);
+  line-height: 1.45;
+  margin-bottom: .875rem;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Property ROI Calculator</h1>
+  <p>Cap rate · Cash-on-cash · 1% rule · Based on your spreadsheet formulas</p>
+</header>
+
+<!-- STICKY RESULTS BAR -->
+<div class="sticky-bar">
+  <div class="sticky-metric">
+    <span class="sticky-label">Cap Rate</span>
+    <span class="sticky-value" id="sb-cap">—</span>
+    <span class="sticky-badge sb-na" id="sb-cap-badge">—</span>
+  </div>
+  <div class="sticky-metric">
+    <span class="sticky-label">Cash-on-Cash</span>
+    <span class="sticky-value" id="sb-coc">—</span>
+    <span class="sticky-badge sb-na" id="sb-coc-badge">—</span>
+  </div>
+  <div class="sticky-metric">
+    <span class="sticky-label">1% Rule</span>
+    <span class="sticky-value" id="sb-pct1">—</span>
+    <span class="sticky-badge sb-na" id="sb-pct1-badge">—</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- 1. RENTAL SCENARIO -->
+  <div class="section">
+    <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
+      <div class="sec-num">1</div>
+      <span class="sec-title">Rental Scenario</span>
+      <svg class="sec-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l5 5 5-5"/></svg>
+    </button>
+    <div class="sec-body open">
+      <div class="sec-inner">
+        <p class="sec-desc">Choose how many rental units this property will have. Rent 1 uses <strong>11 months/yr</strong> (1-month vacancy buffer); Rent 2 &amp; 3 use <strong>11.5 months/yr</strong>.</p>
+        <div class="tabs">
+          <button class="tab active" onclick="setScenario('rent1')" id="tab-rent1">Single unit</button>
+          <button class="tab" onclick="setScenario('rent2')" id="tab-rent2">Duplex</button>
+          <button class="tab" onclick="setScenario('rent3')" id="tab-rent3">Triplex</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. INCOME & PURCHASE -->
+  <div class="section">
+    <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
+      <div class="sec-num">2</div>
+      <span class="sec-title">Income &amp; Purchase</span>
+      <svg class="sec-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l5 5 5-5"/></svg>
+    </button>
+    <div class="sec-body open">
+      <div class="sec-inner">
+        <div class="field-group-title">Monthly Rents</div>
+        <div class="field">
+          <label>Rent 1 — Primary Unit ($/month)</label>
+          <input class="ig" type="number" id="rent1" value="3000" inputmode="numeric" oninput="calc()">
+          <span class="hint">Main unit rent. Used at 11×/yr — models one month of vacancy.</span>
+        </div>
+        <div class="field hidden" id="rent2-field">
+          <label>Rent 2 — Second Unit ($/month)</label>
+          <input class="ig" type="number" id="rent2" value="1200" inputmode="numeric" oninput="calc()">
+          <span class="hint">Second unit rent. Used at 11.5×/yr (slightly lower vacancy buffer).</span>
+        </div>
+        <div class="field hidden" id="rent3-field">
+          <label>Rent 3 — Third Unit ($/month)</label>
+          <input class="ig" type="number" id="rent3" value="1000" inputmode="numeric" oninput="calc()">
+          <span class="hint">Third unit rent. Used at 11.5×/yr.</span>
+        </div>
+
+        <div class="field-group-title">Purchase &amp; Financing</div>
+        <div class="field">
+          <label>Offer Price ($)</label>
+          <input class="ig" type="number" id="offerPrice" value="240000" inputmode="numeric" oninput="calc()">
+          <span class="hint">The number you write on the contract.</span>
+        </div>
+        <div class="field">
+          <label>Down Payment (%)</label>
+          <input class="ig" type="number" id="downPct" value="25" step="0.5" inputmode="decimal" oninput="calc()">
+          <span class="hint">Investment properties typically require 20–25%.</span>
+        </div>
+        <div class="field">
+          <label>Repair / Renovation ($)</label>
+          <input class="ig" type="number" id="renovation" value="15000" inputmode="numeric" oninput="calc()">
+          <span class="hint">Upfront rehab cost — added to total cash invested and the cap rate denominator.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. OPERATING EXPENSES -->
+  <div class="section">
+    <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
+      <div class="sec-num">3</div>
+      <span class="sec-title">Operating Expenses</span>
+      <svg class="sec-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l5 5 5-5"/></svg>
+    </button>
+    <div class="sec-body open">
+      <div class="sec-inner">
+        <div class="field-group-title">Monthly Costs</div>
+        <div class="field">
+          <label>HOA ($/month)</label>
+          <input class="ig" type="number" id="hoa" value="0" inputmode="numeric" oninput="calc()">
+          <span class="hint">HOA fee if applicable. Multiplied by 12 for the annual figure.</span>
+        </div>
+        <div class="field">
+          <label>Miscellaneous / Utilities ($/month)</label>
+          <input class="ig" type="number" id="misc" value="0" inputmode="numeric" oninput="calc()">
+          <span class="hint">Landscaping, trash, landlord-paid utilities, etc.</span>
+        </div>
+        <div class="field">
+          <label>Property Manager (%)</label>
+          <input class="ig" type="number" id="mgmtPct" value="8" step="0.5" inputmode="decimal" oninput="calc()">
+          <span class="hint">Typically 8–10% of Rent 1. Set to 0 if self-managing.</span>
+        </div>
+
+        <div class="field-group-title">Mortgage</div>
+        <div class="field">
+          <label>Mortgage Rate (%)</label>
+          <input class="ig" type="number" id="mortgageRate" value="6" step="0.125" inputmode="decimal" oninput="calc()">
+          <span class="hint">Annual interest rate. Get a lender quote before finalizing.</span>
+        </div>
+        <div class="field">
+          <label>Loan Term (years)</label>
+          <input class="ig" type="number" id="term" value="30" inputmode="numeric" oninput="calc()">
+        </div>
+
+        <div class="field-group-title">Rate Assumptions</div>
+        <div class="field">
+          <label>Maintenance Reserve (%/yr of offer price)</label>
+          <input class="ig" type="number" id="maintRate" value="1" step="0.1" inputmode="decimal" oninput="calc()">
+          <span class="hint">Default 1%. Raise for older homes (1.5–2%), lower for new builds (0.5%).</span>
+        </div>
+        <div class="field">
+          <label>Taxes &amp; Insurance (%/yr of offer price)</label>
+          <input class="ig" type="number" id="taxInsRate" value="1.2" step="0.1" inputmode="decimal" oninput="calc()">
+          <span class="hint">Default 1.2%. Replace with actual tax bills + insurance quotes when available.</span>
+        </div>
+        <div class="field">
+          <label>Closing Costs (% of offer price)</label>
+          <input class="ig" type="number" id="closingRate" value="1.5" step="0.1" inputmode="decimal" oninput="calc()">
+          <span class="hint">Covers lender fees, title, attorney, recording. Typically 1.5–3%.</span>
+        </div>
+
+        <div class="field-group-title">Your Benchmarks</div>
+        <div class="field">
+          <label>Target Cap Rate (%)</label>
+          <input class="ig" type="number" id="minCapRate" value="7" step="0.5" inputmode="decimal" oninput="calc()">
+          <span class="hint">Minimum acceptable cap rate. Typical benchmark: 6–8% in stable markets.</span>
+        </div>
+        <div class="field">
+          <label>Target Cash-on-Cash (%)</label>
+          <input class="ig" type="number" id="minCash" value="9" step="0.5" inputmode="decimal" oninput="calc()">
+          <span class="hint">Minimum acceptable cash-on-cash return. Common target: 8–12%.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. AUTO-CALCULATED INPUTS -->
+  <div class="section">
+    <button class="sec-toggle" onclick="toggleSection(this)" aria-expanded="false">
+      <div class="sec-num">4</div>
+      <span class="sec-title">Computed Values</span>
+      <span class="sec-summary" id="sum-cash">—</span>
+      <svg class="sec-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l5 5 5-5"/></svg>
+    </button>
+    <div class="sec-body">
+      <div class="sec-inner">
+        <p class="sec-desc">Auto-derived from your inputs. Rates for maintenance, taxes &amp; insurance, and closing costs are adjustable above.</p>
+        <div class="ac-row">
+          <div class="ac-label">Annual maintenance reserve
+            <span class="ac-hint">Your maintenance rate % × offer price.</span>
+          </div>
+          <div class="ac-val" id="maint-out">—</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-label">Annual taxes &amp; insurance
+            <span class="ac-hint">Your tax/ins rate % × offer price. Replace with actuals when available.</span>
+          </div>
+          <div class="ac-val" id="taxins-out">—</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-label">Monthly mortgage (P&amp;I)
+            <span class="ac-hint">PMT formula using your rate, term, and loan amount.</span>
+          </div>
+          <div class="ac-val" id="mortgagePmt-out">—</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-label">Down payment amount
+            <span class="ac-hint">Offer price × down payment %.</span>
+          </div>
+          <div class="ac-val" id="downAmt-out">—</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-label">Closing costs
+            <span class="ac-hint">Your closing rate % × offer price.</span>
+          </div>
+          <div class="ac-val" id="closing-out">—</div>
+        </div>
+        <div class="ac-row">
+          <div class="ac-label"><strong>Total cash at closing</strong>
+            <span class="ac-hint">Down payment + closing costs + renovation. Your day-one investment.</span>
+          </div>
+          <div class="ac-val bold" id="cashClosing-out">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. INVESTMENT RESULTS -->
+  <div class="section">
+    <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
+      <div class="sec-num">5</div>
+      <span class="sec-title">Investment Results</span>
+      <svg class="sec-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l5 5 5-5"/></svg>
+    </button>
+    <div class="sec-body open">
+      <div class="sec-inner">
+        <div class="result-stack">
+
+          <div class="result-card" id="capRate-card">
+            <div class="result-top">
+              <span class="result-label">Cap Rate</span>
+              <span class="result-thresh" id="capRate-thresh">Target: —</span>
+            </div>
+            <div class="result-value" id="capRate-out">—</div>
+            <div class="result-desc">NOI ÷ (price + closing + renovation). Measures the property's unlevered return — independent of how you finance it.</div>
+            <div id="capRate-verdict"></div>
+          </div>
+
+          <div class="result-card" id="coc-card">
+            <div class="result-top">
+              <span class="result-label">Cash-on-Cash Return</span>
+              <span class="result-thresh" id="coc-thresh">Target: —</span>
+            </div>
+            <div class="result-value" id="coc-out">—</div>
+            <div class="result-desc">GOI ÷ total cash at closing. Your actual return on invested dollars — mortgage included. Comparable to stocks or REITs.</div>
+            <div id="coc-verdict"></div>
+          </div>
+
+          <div class="result-card" id="pct1-card">
+            <div class="result-top">
+              <span class="result-label">1% Rule</span>
+              <span class="result-thresh">Benchmark: ≥ 1.00%</span>
+            </div>
+            <div class="result-value" id="pct1-out">—</div>
+            <div class="result-desc">Rent 1 ÷ all-in cost. Quick screen: if monthly rent ≥ 1% of total cost, the deal often cash flows.</div>
+            <div id="pct1-verdict"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. INCOME & OPERATING SUMMARY -->
+  <div class="section">
+    <button class="sec-toggle" onclick="toggleSection(this)" aria-expanded="false">
+      <div class="sec-num">6</div>
+      <span class="sec-title">Income &amp; Operating Summary</span>
+      <svg class="sec-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l5 5 5-5"/></svg>
+    </button>
+    <div class="sec-body">
+      <div class="sec-inner">
+        <p class="sec-desc">Annual income and expense waterfall — from gross rent down to cash in your pocket. Each line feeds the results above.</p>
+
+        <div class="op-section-label">Gross Income</div>
+
+        <div class="op-row">
+          <div class="op-left">
+            <div class="op-label">Annual Rent — Unit 1</div>
+            <div class="op-help">Monthly Rent 1 × 11 months. One-month vacancy buffer baked in.</div>
+          </div>
+          <div class="op-val" id="annRent1-out">—</div>
+        </div>
+        <div class="op-row hidden" id="rent2-row">
+          <div class="op-left">
+            <div class="op-label">Annual Rent — Unit 2</div>
+            <div class="op-help">Monthly Rent 2 × 11.5 months. Slightly smaller vacancy buffer for additional units.</div>
+          </div>
+          <div class="op-val" id="annRent2-out">—</div>
+        </div>
+        <div class="op-row hidden" id="rent3-row">
+          <div class="op-left">
+            <div class="op-label">Annual Rent — Unit 3</div>
+            <div class="op-help">Monthly Rent 3 × 11.5 months.</div>
+          </div>
+          <div class="op-val" id="annRent3-out">—</div>
+        </div>
+
+        <div class="op-section-label" style="margin-top:6px">Deductions to NOI</div>
+
+        <div class="op-row">
+          <div class="op-left">
+            <div class="op-label">Less: HOA</div>
+            <div class="op-help">Monthly HOA × 12. Fixed unavoidable cost counted in NOI and Cash-on-Cash.</div>
+          </div>
+          <div class="op-val neg" id="hoa-out">—</div>
+        </div>
+        <div class="op-row">
+          <div class="op-left">
+            <div class="op-label">Less: Maintenance Reserve</div>
+            <div class="op-help">Your maintenance rate % × offer price/yr. Covers HVAC, roof, plumbing over time.</div>
+          </div>
+          <div class="op-val neg" id="maint-row-out">—</div>
+        </div>
+        <div class="op-row">
+          <div class="op-left">
+            <div class="op-label">Less: Taxes &amp; Insurance</div>
+            <div class="op-help">Your tax/ins rate % × offer price/yr. Replace with actuals once you have quotes.</div>
+          </div>
+          <div class="op-val neg" id="taxins-row-out">—</div>
+        </div>
+
+        <div class="op-subtotal op-row">
+          <div class="op-left">
+            <div class="op-label">= Net Operating Income (NOI)</div>
+            <div class="op-help">Before mortgage. Positive NOI = property is operationally self-sustaining. Used for Cap Rate.</div>
+          </div>
+          <div class="op-val" id="noi-out">—</div>
+        </div>
+
+        <div class="op-spacer"></div>
+        <div class="op-section-label">Additional Deductions to Cash Flow</div>
+
+        <div class="op-row">
+          <div class="op-left">
+            <div class="op-label">Less: Property Management</div>
+            <div class="op-help">Mgmt % × Rent 1 × 12. Deducted for Cash-on-Cash (not NOI) — it's an operational choice, not a property cost.</div>
+          </div>
+          <div class="op-val neg" id="mgmt-row-out">—</div>
+        </div>
+        <div class="op-row">
+          <div class="op-left">
+            <div class="op-label">Less: Miscellaneous / Utilities</div>
+            <div class="op-help">Monthly misc × 12. Landscaping, trash, landlord-paid utilities, etc.</div>
+          </div>
+          <div class="op-val neg" id="misc-row-out">—</div>
+        </div>
+        <div class="op-row">
+          <div class="op-left">
+            <div class="op-label">Less: Annual Mortgage (P&amp;I)</div>
+            <div class="op-help">Monthly P&amp;I × 12. Largest single outflow — reduce by lowering offer or increasing down payment.</div>
+          </div>
+          <div class="op-val neg" id="mortgage-row-out">—</div>
+        </div>
+
+        <div class="op-subtotal op-row">
+          <div class="op-left">
+            <div class="op-label">= Gross Operating Income (GOI)</div>
+            <div class="op-help">Annual cash flow after everything including mortgage. Positive = money in your pocket. Negative = you're subsidizing from other income.</div>
+          </div>
+          <div class="op-val" id="goi-out">—</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Based on your ROI_Calculations spreadsheet ("What to Buy" tab) · For informational purposes only
+</footer>
+
+<script>
+let scenario = 'rent1';
+
+function toggleSection(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  btn.setAttribute('aria-expanded', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+function setScenario(s) {
+  scenario = s;
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + s).classList.add('active');
+  const show2 = s === 'rent2' || s === 'rent3';
+  const show3 = s === 'rent3';
+  tog('rent2-field', show2); tog('rent3-field', show3);
+  tog('rent2-row', show2);  tog('rent3-row', show3);
+  calc();
+}
+
+function tog(id, show) {
+  document.getElementById(id).classList.toggle('hidden', !show);
+}
+
+function pmt(rate, nper, pv) {
+  if (rate === 0) return -pv / nper;
+  return -(pv * rate * Math.pow(1 + rate, nper)) / (Math.pow(1 + rate, nper) - 1);
+}
+
+function dollar(n, dec) {
+  dec = dec || 0;
+  if (!isFinite(n)) return '—';
+  const neg = n < 0;
+  const s = '$' + Math.abs(n).toLocaleString('en-US', {minimumFractionDigits: dec, maximumFractionDigits: dec});
+  return neg ? '−' + s : s;
+}
+
+function pct(n, dec) {
+  dec = dec === undefined ? 2 : dec;
+  if (!isFinite(n)) return '—';
+  return (n * 100).toFixed(dec) + '%';
+}
+
+function sv(id, val) { document.getElementById(id).textContent = val; }
+
+function negCls(id, n) {
+  document.getElementById(id).classList.toggle('neg', n < 0);
+}
+
+function setBadge(id, cls, text) {
+  const el = document.getElementById(id);
+  el.className = 'sticky-badge ' + cls;
+  el.textContent = text;
+}
+
+function setVerdict(id, cardId, pass) {
+  const v = document.getElementById(id);
+  const c = document.getElementById(cardId);
+  if (pass === null) { v.innerHTML = ''; c.className = 'result-card'; return; }
+  if (pass) {
+    v.innerHTML = '<span class="verdict-badge badge-go">✓ Go for it</span>';
+    c.className = 'result-card go';
+  } else {
+    v.innerHTML = '<span class="verdict-badge badge-no">✗ Try a lower offer</span>';
+    c.className = 'result-card no';
+  }
+}
+
+function calc() {
+  const rent1  = +document.getElementById('rent1').value || 0;
+  const rent2  = +document.getElementById('rent2').value || 0;
+  const rent3  = +document.getElementById('rent3').value || 0;
+  const offer  = +document.getElementById('offerPrice').value || 0;
+  const downPct  = (+document.getElementById('downPct').value || 0) / 100;
+  const mgmtPct  = (+document.getElementById('mgmtPct').value || 0) / 100;
+  const hoa    = +document.getElementById('hoa').value || 0;
+  const misc   = +document.getElementById('misc').value || 0;
+  const reno   = +document.getElementById('renovation').value || 0;
+  const mortRate = (+document.getElementById('mortgageRate').value || 0) / 100;
+  const term   = +document.getElementById('term').value || 30;
+  const minCap = (+document.getElementById('minCapRate').value || 0) / 100;
+  const minCoc = (+document.getElementById('minCash').value || 0) / 100;
+  const maintR = (+document.getElementById('maintRate').value || 0) / 100;
+  const taxInsR= (+document.getElementById('taxInsRate').value || 0) / 100;
+  const closR  = (+document.getElementById('closingRate').value || 0) / 100;
+
+  const annMaint   = offer * maintR;
+  const annTaxIns  = offer * taxInsR;
+  const downAmt    = offer * downPct;
+  const closingAmt = offer * closR;
+  const loanAmt    = offer - downAmt;
+  const mRate      = mortRate / 12;
+  const nper       = term * 12;
+  const monthlyPI  = Math.abs(pmt(mRate, nper, loanAmt));
+  const annMortgage= monthlyPI * 12;
+  const cashClose  = downAmt + closingAmt + reno;
+
+  const annRent1 = rent1 * 11;
+  const annRent2 = rent2 * 11.5;
+  const annRent3 = rent3 * 11.5;
+  const annHOA   = hoa * 12;
+  const annMisc  = misc * 12;
+  const annMgmt  = rent1 * mgmtPct * 12;
+
+  const baseRent = scenario === 'rent1' ? annRent1 : scenario === 'rent2' ? annRent2 : annRent3;
+
+  const noi = baseRent - annHOA - annTaxIns - annMaint;
+  const goi = baseRent - annHOA - annTaxIns - annMgmt - annMisc - annMortgage;
+
+  const denom = offer + closingAmt + reno;
+  const totalIn = downAmt + closingAmt + reno;
+
+  const capRate = denom > 0 ? noi / denom : NaN;
+  const coc     = totalIn > 0 ? goi / totalIn : NaN;
+  const pct1val = denom > 0 ? rent1 / denom : NaN;
+
+  // Computed values panel
+  sv('maint-out', dollar(annMaint));
+  sv('taxins-out', dollar(annTaxIns));
+  sv('mortgagePmt-out', dollar(monthlyPI, 2) + '/mo');
+  sv('downAmt-out', dollar(downAmt));
+  sv('closing-out', dollar(closingAmt));
+  sv('cashClosing-out', dollar(cashClose));
+  sv('sum-cash', dollar(cashClose));
+
+  // Operating summary
+  sv('annRent1-out', dollar(annRent1));
+  sv('annRent2-out', dollar(annRent2));
+  sv('annRent3-out', dollar(annRent3));
+  sv('hoa-out', annHOA > 0 ? '−' + dollar(annHOA) : '$0');
+  sv('maint-row-out', '−' + dollar(annMaint));
+  sv('taxins-row-out', '−' + dollar(annTaxIns));
+  sv('noi-out', dollar(noi));
+  negCls('noi-out', noi);
+  sv('mgmt-row-out', annMgmt > 0 ? '−' + dollar(annMgmt) : '$0');
+  sv('misc-row-out', annMisc > 0 ? '−' + dollar(annMisc) : '$0');
+  sv('mortgage-row-out', '−' + dollar(annMortgage));
+  sv('goi-out', dollar(goi));
+  negCls('goi-out', goi);
+
+  // Results
+  sv('capRate-out', pct(capRate));
+  sv('coc-out', pct(coc));
+  sv('pct1-out', pct(pct1val));
+  sv('capRate-thresh', 'Target: ' + pct(minCap));
+  sv('coc-thresh', 'Target: ' + pct(minCoc));
+
+  setVerdict('capRate-verdict', 'capRate-card', isFinite(capRate) ? capRate >= minCap : null);
+  setVerdict('coc-verdict', 'coc-card', isFinite(coc) ? coc >= minCoc : null);
+
+  const p1pass = isFinite(pct1val) ? pct1val >= 0.01 : null;
+  const pv = document.getElementById('pct1-verdict');
+  const pc = document.getElementById('pct1-card');
+  if (p1pass === null) { pv.innerHTML = ''; pc.className = 'result-card'; }
+  else if (p1pass) {
+    pv.innerHTML = '<span class="verdict-badge badge-go">✓ Passes 1% rule</span>';
+    pc.className = 'result-card go';
+  } else {
+    pv.innerHTML = '<span class="verdict-badge badge-neutral">↗ Below 1% — not a dealbreaker</span>';
+    pc.className = 'result-card';
+  }
+
+  // Sticky bar
+  sv('sb-cap', pct(capRate));
+  sv('sb-coc', pct(coc));
+  sv('sb-pct1', pct(pct1val));
+
+  if (isFinite(capRate)) {
+    setBadge('sb-cap-badge', capRate >= minCap ? 'sb-go' : 'sb-no', capRate >= minCap ? '✓ Go' : '✗ Low');
+  }
+  if (isFinite(coc)) {
+    setBadge('sb-coc-badge', coc >= minCoc ? 'sb-go' : 'sb-no', coc >= minCoc ? '✓ Go' : '✗ Low');
+  }
+  if (isFinite(pct1val)) {
+    setBadge('sb-pct1-badge', pct1val >= 0.01 ? 'sb-go' : 'sb-na', pct1val >= 0.01 ? '✓ Pass' : '↗ Low');
+  }
+}
+
+calc();
+</script>
+</body>
+</html>
