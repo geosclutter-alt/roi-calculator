@@ -1,1412 +1,3 @@
-
-Claude finished the response
-Can you read excel spreadhseets and convert it into a interactive app
-
-Jun 2
-Yes! I can read Excel spreadsheets and convert them into interactive apps. Here's what I can do:
-
-Read your data — parse sheets, tables, headers, formulas, and multiple tabs
-Build interactive UIs — sortable/filterable tables, charts, dashboards, calculators, or forms based on your data
-Add interactivity — search, filters, drill-downs, summaries, visualizations
-To get started, just upload your Excel file and tell me what kind of app you'd like — for example:
-
-"Turn this into a searchable dashboard"
-"Make an interactive chart from this data"
-"Build a filterable table with summary stats"
-What do you have?
-
-
-ROI Calculations (6).xlsx
-xlsx
-
-In the attached spredheet look at the "What to Buy" tab. convert this into a interactive app. There should be ability to enter the different values (marked in green) .. also the behind the scene calculations should be done and the result provided
-
-Jun 2
-Let me start by reading the skill files and then examining your spreadsheet.
-
-
-Viewed a file, ran a command
-Viewed a file, ran a command
-Now let me get more details from the spreadsheet using Python to understand the exact formulas and structure:
-
-
-Read the What to buy sheet with exact cell values and formulas
-Read the What to buy sheet with exact cell values and formulas
-Now I have a thorough understanding of all the formulas. Let me also check the fill colors to confirm which cells are green (inputs):
-
-
-Check which cells are highlighted green (input cells)
-Check which cells are highlighted green (input cells)
-Now I have everything I need. Let me build the interactive app:
-
-Now I have all the information I need to build the app. Let me create it:
-
-V
-
-Connecting to visualize...
-Here's your interactive ROI calculator, faithfully built from the "What to Buy" tab logic. Here's how it maps to your spreadsheet:
-
-Green input fields match the green-highlighted cells in your sheet — offer price, rents, down payment %, mortgage rate, term, management %, HOA, misc expenses, renovation costs, and your target thresholds.
-
-Auto-calculated fields mirror the Work Area formulas:
-
-Maintenance at 1% of offer price annually
-Taxes & Insurance at 0.1% × 12
-Monthly mortgage via the PMT formula with your rate and term
-Down payment, closing costs (1.5%), and total cash at closing
-The three results (Cap Rate, Cash-on-Cash, 1% Rule) use the exact same logic as your spreadsheet, including the "Go for it / Try lower offer" conditionals comparing against your threshold inputs.
-
-Scenario tabs let you switch between Rent 1 only (single tenant), Rent 2, or Rent 2 & 3 combined — mirroring the three income columns in your original sheet.
-
-Package this into a sharable file or app.. with some more basic help text especially around the income and operating summary fields
-
-Jun 2
-
-Viewed a file, ran a command, read a file
-Viewed a file, ran a command, read a file
-Here's your shareable file — a single self-contained HTML page, no server or internet connection needed. Here's what's in it:
-
-How to share it: Email the file directly, drop it in Google Drive/Dropbox, or open it in any browser on any device. Anyone can use it without installing anything.
-
-What's new vs. the in-chat version:
-
-The Income & Operating Summary section now has a full waterfall explanation — every line has a plain-English description of what it is, how it's calculated, and why it matters. For example:
-
-The NOI row explains it's calculated before the mortgage, why that matters for Cap Rate, and what a positive number means
-The GOI row explains it's your actual annual cash flow, and explicitly flags that negative = you're subsidizing the property from other income
-Each deduction (maintenance, taxes, management, mortgage) explains the assumption behind it so you can decide if you want to swap in actual figures
-The file also includes the color legend in the header, help text on every input field, and a footer crediting the source spreadsheet.
-
-
-Roi calculator
-Code · HTML 
-in teh above file can you modify the  folliwing
-
-make the Annual maintenance reserve, annual taxes and inszurance estimate and closing costs based on user entered or adjustable values with deafults as 1%, 0.1% and 1.5 % respectively. put the investment results section before income and operating summary section
-
-Jun 2
-
-Viewed 2 files, ran a command
-Viewed 2 files, ran a command
-Now I have the full picture. I'll make the three targeted changes: add user inputs for the three rates, reorder Results before Operating Summary, and update the JS. I'll do this with precise str_replace edits.
-
-
-Edited 3 files
-Edited 3 files
-Now reorder: swap Results (section 6) to appear before Operating Summary (section 5), renumbering them:
-
-
-Move Investment Results section before Income & Operating Summary, and renumber both sections
-Move Investment Results section before Income & Operating Summary, and renumber both sections
-Now remove the old Results section that was at the bottom (it's now duplicated):
-
-
-Remove the old Results section that now appears at the bottom (duplicate after reorder)
-Remove the old Results section that now appears at the bottom (duplicate after reorder)
-Now update the JavaScript calc() function to read the three new inputs instead of hardcoded values:
-
-
-Update calc() to read maintRate, taxInsRate, closingRate from new inputs instead of hardcoded values
-Update calc() to read maintRate, taxInsRate, closingRate from new inputs instead of hardcoded values
-Now update the maintenance reserve help text in the operating summary to be dynamic:
-
-
-Update the operating summary maintenance row help text to reference the adjustable rate
-Update the operating summary maintenance row help text to reference the adjustable rate
-Now verify the file looks correct and has no issues:
-
-
-Verify the file integrity - no duplicate IDs, new inputs present, section order correct
-Verify the file integrity - no duplicate IDs, new inputs present, section order correct
-All clean. Let me do a final sanity check on the JS block:
-
-
-Confirm no hardcoded old rate values remain and new variables are wired up correctly
-Confirm no hardcoded old rate values remain and new variables are wired up correctly
-No hardcoded rate values remain (the 0.01 on line 748 is the 1% rule benchmark check, which is correct). Everything looks good.
-
-
-Presented file
-Presented file
-Here's the updated file. Three changes made:
-
-1. Three new adjustable rate inputs — added to the Mortgage & Benchmarks card in section 3, each with a green border and hint text:
-
-Maintenance Reserve Rate (default 1%) — with guidance to raise for older homes, lower for new builds
-Taxes & Insurance Rate (default 1.2%) — with a reminder to swap in real figures once you have quotes
-Closing Costs Rate (default 1.5%) — with a note that your market may run higher
-All three feed live into the auto-calc panel and the full operating waterfall below.
-
-2. Investment Results moved to section 5 — now appears right after the auto-calculated inputs, before the detailed waterfall. You see the verdict first, then the supporting detail below it.
-
-3. Income & Operating Summary renumbered to section 6 — with the help text updated to say "results above" instead of "results below."
-
-
-Roi calculator
-Code · HTML 
-ok now convert this into a easy mobile/smart phone readable format. also make each of the sections collapsible
-
-Jun 2
-
-Viewed 2 files
-Viewed 2 files
-Good, I have the full picture. Now I'll rewrite the file completely with a mobile-first design and collapsible sections.
-
-
-Ran 2 commands
-Ran 2 commands
-All clean — 4 sections open by default, 2 collapsed (Computed Values and Operating Summary). Let's deliver it.
-
-
-Presented file
-Presented file
-Here's the mobile-optimised version. Key changes:
-
-Mobile-first design
-
-All inputs are 44px tall (Apple's recommended minimum tap target) with inputmode set so phones show a number pad instead of a full keyboard
-Single-column layout throughout — no side-by-side grids that would require horizontal scrolling
-maximum-scale=1.0 prevents iOS from zooming in unexpectedly when tapping inputs
-Font sizes scaled up slightly for comfortable reading on small screens
-Sticky results bar
-
-Cap Rate, Cash-on-Cash, and 1% Rule are always visible at the top of the screen as you scroll and fill in inputs — you can see the verdict update in real time without scrolling back up
-Collapsible sections — tap the header to expand/collapse each one
-
-Sections 1, 2, 3, and 5 (Scenario, Income, Expenses, Results) start open since those are the primary inputs and outputs
-Sections 4 and 6 (Computed Values, Operating Summary) start collapsed to keep the screen clean — the summary shows the total cash at closing as a preview while collapsed
-Each toggle has a smooth chevron animation and proper aria-expanded for accessibility
-
-Roi calculator
-Code · HTML 
-in the app is the GOI inlcude the Maintenence reserve.. does not seem like it .. can you verify the calculations and explain the same
-
-Jun 2
-Let me trace through the exact formulas from the spreadsheet and the app code carefully.
-
-
-Check the calc() function in the HTML file for GOI formula
-Check the calc() function in the HTML file for GOI formula
-Now let me also check the original spreadsheet formula to compare:
-
-
-Read the original spreadsheet formulas for NOI and GOI
-Read the original spreadsheet formulas for NOI and GOI
-Now I have everything I need for a definitive answer. Let me trace the full picture:
-
-You are right — there's a bug. Here's the exact breakdown:
-
-Original spreadsheet formulas:
-
-NOI (G6) = C5 − C8 − C9 − C13
-         = AnnRent1 − HOA − Maintenance − TaxesIns
-
-GOI (G7) = C5 − C8 − C9 − C10 − C11 − C14
-         = AnnRent1 − HOA − Maintenance − Misc − PropMgmt − Mortgage
-Maintenance (C9) = B16 * G5 = Offer Price × 1% — and it appears in both NOI and GOI in the spreadsheet.
-
-What the app currently does:
-
-js
-const noi = baseRent - annHOA - annTaxIns - annMaint;   // ✅ correct
-const goi = baseRent - annHOA - annTaxIns - annMgmt - annMisc - annMortgage;  // ❌ missing annMaint
-GOI is missing annMaint. That means the app overstates GOI (and therefore Cash-on-Cash) by the maintenance reserve amount. With default values that's $2,400/year on a $240k property.
-
-Also worth noting: the spreadsheet's GOI does not subtract Taxes & Insurance — it subtracts Maintenance, Misc, PropMgmt, and Mortgage but not TaxesIns (C13 is absent from G7). The app subtracts annTaxIns in GOI, which is also a deviation from the original.
-
-Let me fix both:
-
-
-Fix GOI formula: add annMaint back in, and remove annTaxIns from GOI to match the original spreadsheet formula exactly
-Fix GOI formula: add annMaint back in, and remove annTaxIns from GOI to match the original spreadsheet formula exactly
-Now update the operating summary waterfall display to reflect the correct grouping — Taxes & Insurance stays above the NOI line, and the GOI section shows Maintenance as its own deduction:
-
-
-Viewed 2 files, edited a file
-Viewed 2 files, edited a file
-Good — the waterfall display already shows Maintenance under NOI correctly. Now I just need to update the section label and the help text for the GOI section, and add a note that Maintenance is already counted above (not double-deducted):
-
-
-Update the GOI section label and Maintenance row help text to clarify it's already baked into NOI above
-Update the GOI section label and Maintenance row help text to clarify it's already baked into NOI above
-Now verify the fix with actual numbers to confirm it matches the spreadsheet:
-
-
-Ran 2 commands
-Ran 2 commands
-The deep trace reveals something important. The current fix is actually correct — the GOI needs TaxIns included. Let me now correct the JS to the verified formula and update the file properly:
-
-
-Update GOI formula to the verified correct version: Rent - HOA - Maint - TaxIns - Mgmt - Misc - Mortgage (matches spreadsheet exactly)
-Update GOI formula to the verified correct version: Rent - HOA - Maint - TaxIns - Mgmt - Misc - Mortgage (matches spreadsheet exactly)
-Now update the waterfall display — since TaxIns goes into GOI too, it should show under the GOI deductions section, not just NOI:
-
-
-Fix operating summary section labels — TaxIns goes into both NOI and GOI, reflect this correctly
-Fix operating summary section labels — TaxIns goes into both NOI and GOI, reflect this correctly
-Now do a final verification:
-
-
-Ran a command, read a file
-Ran a command, read a file
-Good catch — there were actually two bugs, both now fixed. Here's the full explanation:
-
-Bug 1 — Maintenance was missing from GOI (your original observation ✅)
-
-The app's old GOI formula was:
-Rent − HOA − TaxIns − PropMgmt − Misc − Mortgage
-
-Maintenance (annMaint) was completely absent. The spreadsheet's GOI formula (cell G7) is:
-C5 − C8 − C9 − C10 − C11 − C14 → Rent − HOA − Maintenance − Misc − PropMgmt − Mortgage
-
-So GOI was overstated by $2,400/year on a $240k property (1% maintenance reserve), and Cash-on-Cash was therefore also inflated.
-
-Bug 2 — How Taxes & Insurance flow (discovered in the trace)
-
-The spreadsheet's monthly mortgage line (B14) is actually a bundled payment: Misc + TaxIns_monthly + P&I. So when the spreadsheet deducts C14 from GOI, it's implicitly including Taxes & Insurance in both NOI and GOI — just hidden inside the mortgage line.
-
-Our app shows them as separate lines for clarity, which is better — but the sum has to be the same. The corrected GOI now is:
-Rent − HOA − Maintenance − TaxIns − PropMgmt − Misc − Mortgage (P&I only)
-
-Verified against spreadsheet defaults: NOI = $27,720 ✓, GOI = $11,889.71 ✓, CoC = 15.13% ✓
-
-
-Roi calculator
-Code · HTML 
-can the above me converted in to a google app.;. if so get me the exact steps
-
-Jun 2
-Yes, the calculator can be converted into a Google App — specifically a Google Apps Script Web App, which is free, lives inside your Google account, and gives you a shareable URL you can open on any phone or browser.
-
-Here are the exact steps:
-
-Step 1 — Open Google Apps Script
-
-Go to script.google.com and sign in with your Google account. Click the "New project" button in the top left.
-
-Step 2 — Set up the project
-
-You'll see a default file called Code.gs with an empty function. You need two files total — one .gs server file and one HTML file.
-
-First, rename the project: click "Untitled project" at the top and name it Property ROI Calculator.
-
-Step 3 — Replace Code.gs
-
-Delete everything in Code.gs and paste this:
-
-javascript
-function doGet() {
-  return HtmlService.createHtmlOutputFromFile('Index')
-    .setTitle('Property ROI Calculator')
-    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
-}
-This tells Google to serve your HTML file when someone visits the app URL.
-
-Step 4 — Create the HTML file
-
-Click the "+" button next to "Files" in the left sidebar → choose "HTML" → name it exactly Index (no extension, Google adds .html automatically).
-
-Delete everything in the new Index.html file. Then open the roi-calculator.html file you downloaded, select all, copy, and paste it into Index.html in the Apps Script editor.
-
-One small edit required: Find this line near the top of the pasted code:
-
-html
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-Google's iframe wrapper can sometimes interfere with maximum-scale. Change it to:
-
-html
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-Step 5 — Save
-
-Press Ctrl+S (or Cmd+S on Mac) to save both files. You'll see a save icon confirm it.
-
-Step 6 — Deploy as a Web App
-
-Click the blue "Deploy" button (top right) → "New deployment".
-
-In the dialog that appears:
-
-Click the gear icon next to "Type" → select Web app
-Description: Property ROI Calculator v1
-Execute as: Me
-Who has access: Choose one:
-Anyone with Google account — best if sharing with family/partners who have Google accounts
-Anyone — fully public, no login required, easiest for phone access
-Click "Deploy".
-
-Step 7 — Authorize the app
-
-Google will ask you to authorize. Click "Authorize access" → choose your Google account → click "Advanced" → "Go to Property ROI Calculator (unsafe)" (this warning appears for all self-made scripts) → "Allow".
-
-Step 8 — Copy your Web App URL
-
-After deploying, Google gives you a URL that looks like:
-https://script.google.com/macros/s/AKfycb.../exec
-
-Copy that URL. That is your permanent shareable link. Open it on your phone — it works exactly like a website, fully mobile-optimized, and updates in real time as you type.
-
-To update the app in the future (if you change the calculator):
-
-Edit Index.html in the script editor → click Deploy → "Manage deployments" → click the pencil icon on your existing deployment → change the version to "New version" → Save. The same URL continues to work.
-
-Sharing options once deployed:
-
-Text or email the URL to anyone — no app install needed
-Add it to your phone's home screen: open the URL in Chrome on Android → three-dot menu → "Add to Home screen". On iPhone Safari → Share → "Add to Home Screen". It will behave like a native app icon.
-Bookmark it in your browser for desktop use
-The whole thing is free, runs on Google's servers, requires no hosting, and your data never leaves the browser — the calculator runs entirely in JavaScript on the device.
-
-how do i make this as an app on google play store?
-
-Jun 2
-Publishing to the Google Play Store requires a proper Android app — a Google Apps Script web app alone won't qualify. Here are your realistic options, from simplest to most involved:
-
-Option 1 — Wrap it as a TWA (Trusted Web Activity) — Recommended
-
-A TWA lets you package your existing HTML calculator as a native Android app with almost no coding. Google built this specifically for web apps that are already mobile-optimized (which yours is).
-
-What you need first: Your calculator must be deployed as a Google Apps Script Web App (the steps from the previous message) OR hosted on any public HTTPS URL.
-
-Steps:
-
-Install Android Studio from developer.android.com/studio — it's free
-Install the Bubblewrap CLI tool (Google's official TWA builder):
-   npm install -g @bubblewrap/cli
-Run the setup wizard pointing at your web app URL:
-   bubblewrap init --manifest=YOUR_WEB_APP_URL
-   bubblewrap build
-This generates a signed .aab (Android App Bundle) file
-4. Create a Google Play Developer account at play.google.com/console — one-time $25 registration fee
-5. Upload the .aab to the Play Console, fill in the store listing (name, description, screenshots), and submit for review
-6. Google reviews it — typically 1–3 days for a new app
-
-Limitation: TWAs require the web app to have a verified domain. Google Apps Script URLs work but need an extra assetlinks.json verification step that Bubblewrap handles automatically.
-
-Option 2 — Build it with React Native or Flutter — More Control
-
-If you want it to feel more like a "real" native app (works offline, custom icon, splash screen, no browser chrome), you'd rebuild the calculator logic in React Native or Flutter. The HTML/CSS/JS you have maps fairly directly to React Native components. This takes more time but gives you full control over the app experience.
-
-Not recommended unless you have development experience or plan to expand the app significantly.
-
-Option 3 — Use a No-Code App Builder
-
-Services like Glide (glideapps.com), AppGyver, or Andromo let you wrap web content or build simple calculators without code and then export to the Play Store. However, they charge monthly fees and you have less control over the exact UI you've built.
-
-Honest recommendation for your situation:
-
-Given that you already have a polished mobile-optimized HTML file, the fastest path to the Play Store is:
-
-Host the HTML on GitHub Pages (free, takes 10 minutes) — gives you a clean https://yourusername.github.io/roi-calculator URL
-Use Bubblewrap to wrap it into an Android app bundle
-Pay the one-time $25 Play Store fee and submit
-The "Add to Home Screen" approach from the previous message (no Play Store) is honestly sufficient for personal use and sharing with a small group — it looks and behaves identically to a Play Store app on Android. The Play Store route makes sense if you want to distribute it publicly or professionally.
-
-Would you like step-by-step instructions for the GitHub Pages hosting route, or the Bubblewrap build process?
-
-how do i setup git for claude code.. i have installed git already
-
-Jun 2
-Here are the exact steps to connect Git with Claude Code:
-
-Step 1 — Verify Git is installed
-
-Open a terminal and run:
-
-bash
-git --version
-You should see something like git version 2.43.0. If yes, you're good.
-
-Step 2 — Configure your Git identity
-
-Git needs to know who you are before it can make commits:
-
-bash
-git config --global user.name "George Arun Mullapparambil Joseph"
-git config --global user.email "your@email.com"
-Use the email associated with your GitHub account.
-
-Step 3 — Create a GitHub account (if you don't have one)
-
-Go to github.com and sign up. Free tier is sufficient for everything you'd need.
-
-Step 4 — Authenticate Git with GitHub
-
-GitHub no longer accepts passwords — you need either a Personal Access Token or SSH key. SSH is cleaner for ongoing use.
-
-Option A — SSH Key (recommended):
-
-bash
-# Generate a key (press Enter through all prompts to accept defaults)
-ssh-keygen -t ed25519 -C "your@email.com"
-
-# Copy the public key to your clipboard
-cat ~/.ssh/id_ed25519.pub
-Then go to github.com → Settings → SSH and GPG keys → New SSH key, paste the key, and save.
-
-Test it works:
-
-bash
-ssh -T git@github.com
-# Should respond: "Hi George! You've successfully authenticated..."
-Option B — Personal Access Token (simpler but less convenient):
-
-Go to github.com → Settings → Developer settings → Personal access tokens → Tokens (classic) → Generate new token. Check the repo scope. Copy the token — you'll use it as your password when Git prompts you.
-
-Step 5 — Install Claude Code
-
-If you haven't already:
-
-bash
-npm install -g @anthropic/claude-code
-Then launch it from any project folder:
-
-bash
-claude
-Step 6 — Create a GitHub repo for your project
-
-On github.com click "New repository", name it (e.g. roi-calculator), set it to Public or Private, and click Create repository.
-
-Then in your terminal, navigate to your project folder and connect it:
-
-bash
-cd /path/to/your/project
-
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin git@github.com:YOUR_USERNAME/roi-calculator.git
-git push -u origin main
-Step 7 — Tell Claude Code about your repo
-
-When you launch Claude Code inside a Git repo folder, it automatically detects Git and can:
-
-Read your current branch and recent commits
-Create and switch branches
-Stage, commit, and push changes on your behalf
-Read and modify any file in the repo
-Just open Claude Code from inside the project folder:
-
-bash
-cd /path/to/your/project
-claude
-You can then tell it things like:
-
-"Create a new branch called feature/offline-mode and add service worker support"
-"Commit all current changes with a meaningful message"
-"Show me what files have changed since the last commit"
-Step 8 — Verify Claude Code can see Git
-
-Once inside Claude Code, you can ask it:
-
-"What's the current git status of this project?"
-
-It will run git status and report back. If it responds with branch info and file changes, everything is wired up correctly.
-
-Quick reference for your Pixel 10 / Windows setup:
-
-If you're running this on Windows, use Windows Terminal or Git Bash (installed with Git for Windows). The commands above are the same. If you're on WSL (Windows Subsystem for Linux), generate the SSH key inside WSL and add that public key to GitHub separately from any Windows-side key.
-
-Want me to walk through setting up a specific project repo — for example the ROI calculator or your Salesforce property management system?
-
-I need to host the above HTML app created on my github pages. how do i do it?
-
-Jun 2
-Here are the exact steps to get your ROI calculator live on GitHub Pages:
-
-Step 1 — Create a GitHub account (if you haven't already)
-
-Go to github.com and sign up. Free account is all you need.
-
-Step 2 — Create a new repository
-
-Click the "+" icon in the top right → "New repository"
-Fill in:
-Repository name: roi-calculator (or any name you like)
-Visibility: Public ← GitHub Pages requires this on free accounts
-Check "Add a README file"
-Click "Create repository"
-Step 3 — Upload your HTML file
-
-You have two ways — pick whichever suits you:
-
-Option A — Direct upload through the browser (no terminal needed):
-
-Inside your new repo, click "Add file" → "Upload files"
-Drag and drop your roi-calculator.html file
-Important: Rename it to index.html before uploading — GitHub Pages serves index.html as the default page at your root URL
-Scroll down, add a commit message like Add ROI calculator, click "Commit changes"
-Option B — Via terminal (if you set up Git from the previous steps):
-
-bash
-# Navigate to wherever your HTML file is saved
-cd /path/to/folder
-
-# Initialize git and connect to your repo
-git init
-git remote add origin git@github.com:YOUR_USERNAME/roi-calculator.git
-git pull origin main
-
-# Rename and add the file
-cp roi-calculator.html index.html
-git add index.html
-git commit -m "Add ROI calculator"
-git push origin main
-Step 4 — Enable GitHub Pages
-
-In your repo, click "Settings" (top menu bar)
-In the left sidebar, click "Pages"
-Under "Source", click the dropdown and select "Deploy from a branch"
-Under "Branch", select "main" and folder "/ (root)"
-Click "Save"
-Step 5 — Wait ~60 seconds then get your URL
-
-GitHub will build and deploy. After about a minute, refresh the Settings → Pages screen and you'll see a green banner:
-
-Your site is live at https://YOUR_USERNAME.github.io/roi-calculator/
-
-That is your permanent public URL. Works on any browser, any device, forever (as long as the repo exists).
-
-Step 6 — Test it on your phone
-
-Text yourself the URL and open it on your Pixel. It should load fully and work exactly like you built it — sticky results bar, collapsible sections, all inputs functional.
-
-To update the app in the future:
-
-Whenever you make changes to the file, just re-upload it via the browser (Add file → Upload files → check "Replace existing file") or push via terminal:
-
-bash
-git add index.html
-git commit -m "Update calculator - fix GOI formula"
-git push origin main
-GitHub Pages automatically redeploys within 60 seconds. The URL never changes.
-
-Optional — Get a cleaner URL
-
-If you want the URL to be https://YOUR_USERNAME.github.io/ instead of .../roi-calculator/, name the repository exactly YOUR_USERNAME.github.io when creating it. GitHub treats that as a special root site repo. For example George's would be georgejoseph.github.io — the calculator would then live at https://georgejoseph.github.io/.
-
-Once it's live, to add it to your Pixel home screen:
-
-Open the URL in Chrome on your Pixel
-Tap the three-dot menu → "Add to Home screen"
-Name it "ROI Calculator" → tap "Add"
-It will appear as an icon on your home screen and open full-screen like a native app — no browser chrome, no address bar.
-
-1780440480293_image.png
-got the attached error when going to the url that github pages generated
-
-Jun 2
-The error message tells us exactly what's wrong — GitHub Pages is looking for a file called index.html but your file is probably still named roi-calculator.html in the repo. Here's how to fix it:
-
-Step 1 — Check what's actually in your repo
-
-Go to github.com/geosclutter-alt/roi-calculator and look at the file list. You'll likely see roi-calculator.html instead of index.html.
-
-Step 2 — Rename the file directly in GitHub (easiest fix)
-
-Click on the file roi-calculator.html in your repo
-Click the pencil icon (Edit) in the top right of the file view
-At the very top, you'll see the filename in an editable box — clear it and type index.html
-Scroll down and click "Commit changes" → "Commit directly to main" → "Commit changes"
-Step 3 — Wait ~60 seconds and refresh
-
-GitHub Pages will redeploy automatically. Then go back to:
-https://geosclutter-alt.github.io/roi-calculator/
-
-It should load your calculator.
-
-If renaming doesn't appear as an option, the alternative is to delete the old file and re-upload it named correctly:
-
-Click the file → click the three dots "..." menu (top right) → "Delete file" → commit the deletion
-Then click "Add file" → "Upload files" → upload your local file after renaming it to index.html on your computer first → commit
-Quick sanity check after it's live — the URL GitHub Pages gave you (geosclutter-alt.github.io/roi-calculator/) needs a trailing slash or an index.html in that folder to work. Once the file is named index.html it will resolve correctly.
-
-1780440563846_image.png
-i have the index.html in my repo (see attached screenshot).. what else is  missing
-
-Jun 2
-I can see the issue right away — your file is named Index.html (capital I) but GitHub Pages expects index.html (lowercase i). Linux servers (which GitHub Pages runs on) are case-sensitive, so Index.html ≠ index.html.
-
-Fix it directly in GitHub:
-
-Step 1 — Click on Index.html in your repo
-
-Step 2 — Click the pencil icon (Edit file) in the top right
-
-Step 3 — At the top of the editor you'll see the filename field — click it and change Index.html to index.html (just lowercase the "i")
-
-Step 4 — Scroll down → click "Commit changes" → "Commit directly to main" → "Commit changes"
-
-Wait about 60 seconds, then try your URL again:
-https://geosclutter-alt.github.io/roi-calculator/
-
-It should load. You can also see the right panel in your screenshot already shows "github-pages — 6 minutes ago" with a green dot, meaning Pages is active and deployed — it just can't find the file due to the capitalization mismatch.
-
-can claude cowork read and login to websites for which the credentials are set in a txt file in the workspace?
-
-Jun 2
-No — Claude (including Cowork) will not read credentials from a file and use them to log into websites, even if you explicitly set it up that way. This is a hard safety boundary, not a technical limitation.
-
-Specifically, Claude will not:
-
-Read passwords, tokens, or credentials from any file and enter them into a login form
-Complete a login flow on your behalf using stored credentials
-Bypass authentication screens even with your explicit permission
-This applies regardless of how the credentials are stored — a .txt file, .env file, a config file, or anything else in the workspace.
-
-Why this boundary exists:
-
-Automated credential use creates serious risks even with good intent — credentials could be sent to unintended endpoints, the login could trigger security alerts on your accounts, and it removes your direct control over when and where your passwords are used. Anthropic draws a hard line here to protect users.
-
-What Claude Cowork CAN do with authenticated sites:
-
-If you are already logged in to a website in your browser, Cowork can interact with that session — filling forms, reading page content, clicking elements, navigating — because no credential handling is involved. You authenticate yourself, then hand off the already-open session.
-
-Better alternatives for credential-based automation:
-
-Browser profiles — stay logged in to your sites and let Cowork operate on those open sessions
-Password managers (1Password, Bitwarden) with browser extensions — you log in, the manager fills credentials, Cowork takes over after
-OAuth/API tokens — for services that support it, you authenticate once and Cowork can use a pre-authorized session
-Zapier / Make — for workflow automation that requires credentials, these tools handle auth securely in their own vaults
-Would you like help setting up any of those alternatives for a specific site or workflow you have in mind?
-
-I'm trying to build a scheduled process for my real estate business. I need to run this every month, so the things that I will have to check are:
-
-I'll have to check that all the mortgage payments have been done.
-I have to check if all the home insurance details are still valid.
-I need to check for any taxes, that all taxes are still valid, etc.
-Check if teh LLC is still active?
-at the end a summary report needs to be send to my email How do I set that up using co work?
-Jun 2
-This is a great use case for Cowork, but let me give you an honest breakdown of what Cowork can and can't do here, and then the best architecture for your specific situation.
-
-The honest reality with Cowork
-
-Cowork is a task-by-task assistant — you trigger it manually and it works through your open browser sessions and files. It does not have a built-in scheduler that runs automatically on a recurring date without you initiating it. So a fully automated "runs itself on the 1st of every month" workflow isn't something Cowork does natively.
-
-What the ideal architecture looks like for your 14-unit portfolio
-
-The cleanest solution combines a few tools you likely already have:
-
-Trigger: Google Calendar → a recurring monthly reminder on the 1st with a checklist link
-
-Data sources: Each check pulls from where the data already lives:
-
-Check	Where the data lives	How to access
-Mortgage payments	Your bank / lender portal	Cowork on open browser session
-Home insurance validity	Emails from Angie Boykin / ncfbins.com	Gmail MCP (already connected)
-Property taxes	County tax portal (Wake, Durham, etc.)	Cowork browser
-LLC status	NC Secretary of State website	Cowork browser
-Summary report	All of the above	Claude compiles → sends via Gmail
-The practical setup, step by step
-
-Step 1 — Build a master checklist document in Google Drive
-
-Create a Google Doc called Monthly Property Checklist with one row per property (all 14 units) and columns for each check: Mortgage ✓, Insurance ✓, Taxes ✓, LLC ✓. This becomes the working sheet Cowork fills in each month.
-
-Step 2 — Set a recurring Google Calendar reminder
-
-Create a monthly event on the 1st of each month called "Run Property Audit" with a note linking to your checklist doc and a prompt like: "Open Cowork and run the monthly property audit routine."
-
-Step 3 — On audit day, open Cowork and give it this standing prompt
-
-You'd keep a saved prompt (in a Google Doc or Cowork workspace file) that says something like:
-
-"Run my monthly property audit.
-
-Open my Gmail and search for any insurance correspondence from ncfbins.com in the last 30 days — note any renewals, lapses, or changes.
-Go to the NC Secretary of State website and check the active status of [your LLC name].
-Go to the Wake County tax portal and check for any outstanding property tax balances.
-Open my checklist doc and update each property's status.
-Draft a summary email to [your email] with a table of results and any action items flagged in red."
-Cowork will execute each step across your open browser tabs and your connected Gmail.
-
-Step 4 — Review and send
-
-Cowork drafts the summary email. You review it and click send — keeping you in the loop before anything goes out.
-
-For the mortgage check specifically
-
-This one is trickiest because lender portals require login. The workaround:
-
-Keep your lender portal(s) open and logged in before starting Cowork
-Or set up automatic payment confirmations to go to your Gmail — Cowork can then search Gmail for "payment confirmation" from each lender instead of logging into the portal directly
-If you want true zero-touch automation
-
-That requires a different stack: Zapier (scheduler) + Gmail API + a custom Claude API call. This is closer to what you architected in your Salesforce property management system. Given you already have that project in progress with Agentforce, the cleanest long-term answer is to build this monthly audit as a scheduled Flow in Salesforce that:
-
-Pulls data from your custom property objects
-Calls external APIs (NC SOS, county tax portals) via HTTP callouts
-Generates a report via Agentforce
-Emails it to you automatically
-That would be fully automated and live inside your existing system.
-
-My recommendation for right now
-
-Start with the Cowork + saved prompt approach — it gets you 80% of the way there with minimal setup and keeps you in control. Once your Salesforce property management system is built out, migrate the audit into a scheduled Salesforce Flow for full automation.
-
-Want me to write out the exact Cowork prompt script you'd use each month, tailored to your 14 properties and specific lenders/counties?
-
-can you scan through the attached site and get me a quick summary of what you see
-
-https://app.monarch.com/accounts?chartType=performance&dateRange=1M&timeframe=month
-
-Jun 4
-I can't access that URL — Monarch Money requires you to be logged in, and as we discussed earlier, I won't handle credentials or authenticated sessions on your behalf.
-
-Even with Cowork and an open browser session, financial account dashboards like Monarch typically block automated reading for security reasons.
-
-A few ways to get me the data instead:
-
-Option 1 — Screenshot
-Take a screenshot of the page and upload it here. I can read and summarize everything visible — account balances, performance charts, transactions, etc.
-
-Option 2 — Monarch's Export feature
-Inside Monarch, go to Transactions or Accounts → look for an Export or Download CSV option. Upload the CSV here and I'll give you a full summary and analysis.
-
-Option 3 — Monarch's built-in reports
-Monarch has a Reports section that generates summaries. Screenshot that and upload it.
-
-Given you track your finances across Monarch, Robinhood, and Fidelity, if you share a screenshot or export I can give you a consolidated summary across all three — which is probably more useful than any one view alone. Want to try that?
-
-https://geosclutter-alt.github.io/roi-calculator/
-
-the above html file roi calculator needs to be modified and published again to do the folliwing
-
-have the inputs put in such a way that the calculator should have a field (Possible offer price) which basically says the lowest offer which will make the target cash on cash target. 
-
-we also need to test the numbers and inputs for duplex and triplex options .. there might be some calculation errors
-
-2:24 PM
-I'll fetch the current live version to make sure I'm working with exactly what's published, then add the reverse-solver field and audit the duplex/triplex math.
-
-
-Fetched: Property ROI Calculator
-Fetched: Property ROI Calculator
-The fetch confirms the live version is the one with the GOI fix from earlier — but I notice the rendered text shows the old operating-summary help text ("Deductions to NOI" / "Additional Deductions to Cash Flow"), meaning the published file may predate my last edits. I'll work from my local corrected copy, which has the verified formulas. Let me confirm it's intact and then build the two new features.
-
-
-Confirm local file exists and check the GOI formula state
-Confirm local file exists and check the GOI formula state
-Local file has the corrected GOI formula. Now let me audit the duplex/triplex math carefully before making changes — this is the part you flagged for possible errors.
-
-
-Audit the duplex/triplex rent aggregation logic for bugs
-Audit the duplex/triplex rent aggregation logic for bugs
-Confirmed — there's a significant bug. The duplex and triplex options only count one unit's rent instead of summing them. A duplex was using only Rent 2 ($13,800) and ignoring Rent 1 entirely, dramatically understating returns.
-
-Let me check how the original spreadsheet handled this to confirm the correct intent:
-
-
-Check how the original spreadsheet structured multi-unit rents
-Check how the original spreadsheet structured multi-unit rents
-This is the key insight. The original spreadsheet's NOI/GOI formulas (=C5-...) only ever reference C5 (Rent 1) — the spreadsheet itself only modeled a single unit. Rent 2 and Rent 3 rows existed (C6, C7) but were never actually summed into NOI or GOI. So the multi-unit scenarios were my addition, and the aggregation logic needs to properly sum all active units. The correct behavior is clearly: duplex = Rent1 + Rent2, triplex = Rent1 + Rent2 + Rent3.
-
-Now let me also think through the reverse-solver ("Possible Offer Price"). Let me work out the math since it's non-trivial — offer price appears in many places at once.
-
-
-Derive and verify the closed-form reverse solver for offer price given a target CoC
-Derive and verify the closed-form reverse solver for offer price given a target CoC
-The closed-form solver works — verifies to exactly 9.0000% and behaves correctly (lower price → higher return). The math is clean because mortgage payment is linear in principal, so there's an exact algebraic solution (no iteration needed).
-
-Now I have everything verified. Let me make the edits. First, fix the rent aggregation bug:
-
-
-Edited 2 files
-Edited 2 files
-Now I also need to check the 1% rule — it currently uses only rent1, but for multi-unit it should arguably use total monthly rent. Let me check the current code and the operating summary display logic:
-
-
-View the calc section around pct1 and rent display
-View the calc section around pct1 and rent display
-Two more issues to fix for multi-unit correctness:
-
-Property management (annMgmt) only applies to rent1 — for a duplex/triplex, management fees would apply to total collected rent.
-1% rule (pct1val) uses only rent1 — should use total monthly rent for multi-unit.
-Let me fix both to use total monthly rent across active units:
-
-
-Edited 2 files
-Edited 2 files
-Now update the help text references that mention "Rent 1" for management and the 1% rule, since they now use total rent. Let me find them:
-
-
-Edited 2 files, ran a command
-Edited 2 files, ran a command
-Now add the "Possible Offer Price" reverse-solver feature. First, let me add a result card for it in the Investment Results section. Let me view that area:
-
-
-View Investment Results section to add the solver card
-View Investment Results section to add the solver card
-I'll add a prominent "Possible Offer Price" card at the top of the results stack — it's the headline number you want. Let me add some distinctive styling for it too:
-
-
-Add the Possible Offer Price solver card at the top of the results stack
-Add the Possible Offer Price solver card at the top of the results stack
-Now add the highlight-card CSS style. Let me find the result-card styles:
-
-
-Ran a command, viewed a file, edited a file
-Ran a command, viewed a file, edited a file
-Now wire up the solver logic in the calc() function. Let me view the end of calc() to place it correctly:
-
-
-View the results computation section to add solver logic
-View the results computation section to add solver logic
-Now I'll add the solver logic. I need annMgmt expressed independently of offer price (it depends on rent, not price — good), and the annual mortgage factor k. Let me insert the solver after the results block:
-
-
-Add the reverse-solver logic to compute the maximum offer price that hits the target CoC
-Add the reverse-solver logic to compute the maximum offer price that hits the target CoC
-Now let me verify the whole thing works correctly with a comprehensive test across all three scenarios, plus the solver:
-
-
-Comprehensive test of all three scenarios and the solver, with self-verification
-Comprehensive test of all three scenarios and the solver, with self-verification
-All three scenarios now compute correctly, and the solver verifies to exactly 9.0000% CoC at the solved price in every case. The numbers make sense: more units → higher rent → higher returns → you can afford to offer more and still hit your target.
-
-Now let me run final integrity checks on the file:
-
-
-Final integrity check: IDs, brace balance, new elements present
-Final integrity check: IDs, brace balance, new elements present
-Everything checks out — balanced braces, no duplicate IDs, all new elements present. Let me also do a quick edge-case test to make sure the solver handles the "impossible target" case gracefully:
-
-
-Test solver edge cases including negative/impossible results
-Test solver edge cases including negative/impossible results
-Good — even with low rent the solver returns a positive sensible price (just lower), and the solvedP > 0 guard in the code handles any negative edge case by showing the "N/A" message. The feature is robust.
-
-The file is ready. Let me present it.
-
-
-Presented file
-Presented file
-Done. Two things accomplished — and the bug audit you suspected was real.
-
-1. New "Possible Offer Price" field
-
-A highlighted card now sits at the top of the Investment Results section. It works backward from your Target Cash-on-Cash to compute the highest price you can offer and still hit that target, holding all your other inputs (rents, rates, down payment, renovation) constant. It also tells you whether your current offer is already under that ceiling (room to go up) or over it (how much to drop). With the default $3,000 rent and 9% target, that ceiling comes out to $288,249.
-
-This is an exact algebraic solution, not a guess — because the mortgage payment is linear in the loan amount, the offer price can be solved directly, and I verified it lands on exactly 9.0000% CoC when plugged back in.
-
-2. The duplex/triplex bug — confirmed and fixed
-
-You were right to flag it. There were actually three related errors:
-
-Rent aggregation: Duplex was counting only Rent 2 and ignoring Rent 1 entirely; triplex counted only Rent 3. A duplex with $3,000 + $1,200 rents was modeling just $13,800/yr instead of $46,800/yr. Now all active units sum correctly.
-Property management: Was calculated on Rent 1 only — now applies to total collected rent across all units.
-1% rule: Was using Rent 1 only — now uses total monthly rent, which is the correct basis for a multi-unit property.
-Verified results after the fix: Single 15.13% CoC, Duplex 31.22%, Triplex 44.63% — all internally consistent.
-
-To publish the update, replace index.html in your GitHub repo with this file (Add file → Upload files → check "replace existing"), commit, and your live URL updates within ~60 seconds. The single-unit numbers are unchanged from before, so anything you calculated previously for single-family properties still holds.
-
-
-Roi calculator
-Code · HTML 
-great. need to following modifications made
-
-another check box where I can indicate cash purchase vs mortgage . this should reflect in the  whole  calculation of numbers
-
-I want to add another tab in the app to do the following 
-list the current properties we own with their numbers (purchase price, mortgage details,  with the same default expenses, current rent, cap rate, cash on cash. following are the properties. we could have a places to add the property details and then the number will be calculated and stored..
-
-2:45 PM
-This is a solid set of additions. Let me make sure I understand the second part correctly before I build the property-portfolio tab, since the details matter for how I structure the storage and calculations.
-
-we could do the calculation the first time and then store it as part of the app
-
-2:46 PM
-Got it — so saved properties become part of the app's stored data, calculated once when you add them and then persisted. A couple of important technical points before I build this, because they affect how it'll actually work for you:
-
-The localStorage constraint
-
-The calculator currently runs as a standalone HTML file (on GitHub Pages and as a downloaded file). Browser storage works in that environment — but there's a catch worth knowing: data saved in localStorage is tied to the specific browser and domain. So properties you add on your phone's browser at geosclutter-alt.github.io won't appear if you open the same page on your laptop, and clearing browser data wipes them. That's the trade-off of a no-backend app.
-
-To make this genuinely useful across your devices and safe against data loss, I'll build it as browser-save + export/import backup: properties persist automatically in the browser, plus a "Download backup" button that saves a small JSON file you can keep in Google Drive and re-import on any device. This keeps the app fully standalone (no server, no login) while protecting your data. That matches how you'd want to manage a 14-property portfolio.
-
-For the cash vs. mortgage question — I'll go with the standard real-estate convention: cash purchase means total cash invested = full price + closing + renovation (all your money is in the deal), and the mortgage line drops to $0 across NOI/GOI. This gives you a true apples-to-apples Cash-on-Cash between financed and cash deals.
-
-The property list — go ahead and paste it whenever you're ready. To compute each property's cap rate and cash-on-cash, each one ideally needs: purchase price, down payment % (or "cash"), mortgage rate, current monthly rent, and any property-specific overrides (HOA, renovation, etc.). If some fields are missing I'll fall back to the calculator's current defaults (1% maintenance, 1.2% taxes/insurance, 1.5% closing, 8% management, 30-year term) and flag which ones used defaults.
-
-Here's my plan, so you can confirm before I build:
-
-The app gets a two-tab structure at the top — "Calculator" (everything you have now) and "My Properties" (new). The Calculator tab gains a Cash Purchase toggle that zeroes out the mortgage and adjusts cash-invested everywhere. The Properties tab lets you add a property through a form, auto-calculates and stores its cap rate / cash-on-cash / NOI / GOI, lists all properties in a comparison table with portfolio totals, and has backup export/import.
-
-Want me to go ahead and build the Cash Purchase toggle and the empty Properties tab structure now, and you paste the property list in your next message so I populate it? Or would you rather paste the list first so I build it all in one pass?
-
-I will post the property list after you build the first pass
-
-2:48 PM
-Sounds good. Let me build the first pass — the Cash Purchase toggle plus the empty Properties tab structure. I'll start by viewing the current file to plan the integration points.
-
-
-Ran a command, viewed a file
-Ran a command, viewed a file
-Now let me look at the down payment / mortgage fields and the calc function to know where to integrate the cash toggle:
-
-
-Viewed 2 files
-Viewed 2 files
-Now I have a clear picture. Given the scope (top-level tabs, cash toggle threading through all calcs, a full Properties tab with forms/storage/table, and a refactor of calc() into a reusable pure function), this is substantial. Let me rebuild the file cleanly rather than patch it piecemeal — that's safer for correctness. Let me first grab the full current calc() and script so I preserve the verified logic exactly.
-
-
-View the full script block to preserve verified logic
-View the full script block to preserve verified logic
-I notice line 990 has a bug from an earlier edit — sv('sb-pct1', ...) appears but sb-cap and sb-coc text updates are missing (they got dropped). I'll fix that in the rebuild too.
-
-Now I'll refactor this into a clean architecture. The key move is extracting the math into a pure function computeMetrics(inputs) that both the Calculator tab and the Properties tab can call. This avoids duplicating the verified formulas. Let me build the new script with: a pure compute core, the cash-purchase toggle, tab switching, and the Properties tab with localStorage + export/import.
-
-Let me start by adding the CSS for tabs, cash toggle, and the properties table:
-
-
-Viewed a file, edited a file
-Viewed a file, edited a file
-Now add the app-level tab bar right after the header, and wrap the existing <main> content so it can be toggled. First the tab bar + cash toggle in the Income section:
-
-
-Add app-level tab bar after header, before sticky bar
-Add app-level tab bar after header, before sticky bar
-Now add the cash/mortgage toggle in the Purchase & Financing group:
-
-
-Add cash vs mortgage toggle and wrap down payment field so it can be hidden for cash
-Add cash vs mortgage toggle and wrap down payment field so it can be hidden for cash
-Also hide the Mortgage rate/term group when cash. Let me wrap that group with an id:
-
-
-Wrap mortgage fields group so it can be hidden in cash mode
-Wrap mortgage fields group so it can be hidden in cash mode
-Now close the calculator tab div and add the Properties tab view. Let me find the </main> and footer:
-
-
-Close calculator tab view and add the Properties tab view with portfolio summary, list, and modal form
-Close calculator tab view and add the Properties tab view with portfolio summary, list, and modal form
-Now the big part — rewrite the <script> block with the refactored architecture. I'll replace the entire script:
-
-
-Ran 3 commands
-Ran 3 commands
-Now let me run comprehensive integrity and logic tests:
-
-
-Integrity check on rebuilt file
-Integrity check on rebuilt file
-Clean. Now let me verify the compute logic by extracting computeMetrics and testing it in Node-equivalent (Python port) for both cash and mortgage, confirming the cash toggle behaves correctly:
-
-
-Verify cash vs mortgage logic produces correct relationships
-Verify cash vs mortgage logic produces correct relationships
-All sanity checks pass — the cash/mortgage logic is financially correct:
-
-NOI is identical (it excludes financing, as it should)
-Cash GOI is higher (no mortgage payment dragging it down)
-Cash CoC is lower (15.13% → 9.61%, because leverage amplifies returns — a real, correct effect)
-Cash invested correctly becomes the full price + closing + renovation
-Let me do a final visual smoke test by checking the HTML renders without obvious structural issues, then deliver:
-
-
-Final structural smoke test
-Final structural smoke test
-Everything balances — div tags, main tags, modal structure all intact.
-
-
-Presented file
-Presented file
-First pass is built and verified. Here's what's new:
-
-Cash Purchase vs. Mortgage toggle (Calculator tab)
-
-A toggle now sits at the top of Purchase & Financing. Switching to Cash Purchase:
-
-Hides the down payment and mortgage rate/term fields
-Zeroes the mortgage across NOI/GOI
-Sets total cash invested to the full price + closing + renovation
-I verified the financial logic: NOI stays identical (it's financing-independent), GOI rises (no mortgage drag), and Cash-on-Cash drops from 15.13% to 9.61% on the default property — which is correct, since leverage amplifies cash-on-cash returns. The reverse solver also adapts to cash mode.
-
-New "My Properties" tab
-
-Two tabs now sit under the header — Calculator and My Properties. The Properties tab has:
-
-Add Property form (slide-up modal) with its own cash/mortgage toggle, rent for up to 3 units, and all expense fields pre-filled with your defaults (8% mgmt, 1% maintenance, 1.2% taxes/ins, 1.5% closing)
-Per-property cards showing Cap Rate, Cash-on-Cash, and annual cash flow, calculated once on save and stored
-Portfolio summary banner with blended cap rate, blended CoC, total value, total monthly rent, and combined cash flow across all properties
-Edit / Delete on each property
-Backup / Restore buttons — Backup downloads a JSON file (keep it in Google Drive); Restore re-imports it on any device
-Both tabs share the exact same verified calculation engine — I refactored the math into a single computeMetrics() function so the Calculator and Properties tab can never drift apart.
-
-One thing to know about storage, as I mentioned: properties save automatically in your browser (localStorage), which is per-device. The Backup button is your cross-device bridge — download it once, and you can Restore it on your phone, laptop, or after clearing browser data.
-
-Go ahead and paste your property list whenever you're ready, and I'll populate the tab — either by pre-loading them into the file or giving you the fastest way to enter all 14.
-
-
-Roi calculator
-Code · HTML 
-great, few more modifications I need
-
-on the roi calculator tab .. calculate the effective Coc  as a new field considering leverage, appreciation (2% Yoy), and loan paydown. 
-
-on the my properties tab add the effective Coc as well . in addition include monthly and annual  expense + financing debt .. for each property. I found a bug where when I click "Add property" it does not bring up the full form just partial form starting from miscellous /utilities field fix that.. 
-
-ask any question you have to be able fix all these and make the modifications
-
-3:34 PM
-Good set of changes. Let me ask a couple of clarifying questions on the financial definitions before I build, since "effective CoC" can be calculated a few different ways and I want to match your intent exactly.
-
-3
-
-3:35 PM
-Got it — all three set to option 3:
-
-Effective CoC = show both versions, labeled (appreciation on equity vs. appreciation on full property value)
-Time horizon = editable field so you can pick a year
-Appreciation rate = editable field, default 2%
-Before I build, two quick definitional confirmations so the math is exactly right — these matter and I don't want to guess:
-
-On "appreciation on equity vs. full value": The standard and more meaningful interpretation is appreciation on the full property value — if a $240k property appreciates 2%, you gain $4,800 in value regardless of your loan balance, and that full gain accrues to you as the owner. "Appreciation on equity" (2% of just your down payment) isn't a real-world concept anyone uses. So rather than show a meaningless second version, I'll show two genuinely useful ones:
-
-Effective CoC (Year N) — total return in your selected year: (annual cash flow + that year's appreciation + that year's principal paydown) ÷ cash invested
-Effective CoC (Annualized avg) — the same but averaged over the years from purchase through your selected year, which smooths out the fact that early years are principal-light and appreciation compounds
-That gives you a point-in-time number and a smoothed number, both of which investors actually use.
-
-On loan paydown for cash purchases: A cash purchase has no loan, so principal paydown is $0 — Effective CoC there is just cash flow + appreciation. That's handled automatically.
-
-Does that framing work for you? If yes, I'll build it with:
-
-A "Return Assumptions" section on the Calculator tab with editable Appreciation Rate (default 2%) and Holding Period / Year (default 1)
-Two new result cards for the Effective CoC figures
-The same Effective CoC added to each property card on the My Properties tab, plus the monthly and annual expense + debt service breakdown you asked for
-The Add Property form bug fix (it's almost certainly a stray tag truncating the modal — I'll inspect and repair it)
-Just confirm the framing and I'll proceed.
-
-yes framing looks good. proceed
-
-3:36 PM
-Let me start by diagnosing the Add Property form bug, since that's a concrete defect. Let me inspect the modal structure.
-
-
-Inspect modal form structure for the bug
-Inspect modal form structure for the bug
-The HTML structure looks complete (all fields from Identification through Closing are present). The bug is most likely the modal positioning: .modal-overlay uses align-items: flex-end (slide-up from bottom), and .modal has max-height: 92vh with overflow-y: auto. On a tall form, the modal opens scrolled — but more likely the issue is that the overlay aligns content to the bottom, so when the form is tall, the top fields get pushed above the viewport and it opens already scrolled down to the middle. Let me check the modal CSS:
-
-
-View modal overlay and modal CSS
-View modal overlay and modal CSS
-Found it. The problem is the combination of align-items: flex-end + max-height: 92vh + the modal-head not being sticky. When the form is taller than 92vh (which it is — 17 fields), the modal becomes scrollable, but because it's anchored to the bottom with flex-end, it can open with the scroll position partway down, so you see the form starting mid-way (around the Miscellaneous field). Also there's no scroll-reset when opening.
-
-I'll fix this three ways: anchor the modal so it always opens showing the top, make the header sticky, and explicitly reset scroll to top when the form opens. Let me update the CSS:
-
-
-Fix modal so it always opens showing the top of the form with a sticky header
-Fix modal so it always opens showing the top of the form with a sticky header
-Now add a scroll-reset in the openPropForm function. Let me find where it opens the modal:
-
-
-Ran a command, edited a file
-Ran a command, edited a file
-Modal bug fixed. Now the Effective CoC feature. First, let me update the computeMetrics core to calculate appreciation and loan paydown. I need to compute the principal paid down in a given year and the cumulative appreciation. Let me view the current compute function:
-
-
-Viewed 2 files
-Viewed 2 files
-Now let me work out the loan-paydown math carefully before coding it. I need: principal paid in a specific year, and cumulative principal paid through year N, plus cumulative appreciation. Let me derive and verify in Python first:
-
-
-Derive and verify loan paydown and appreciation math for Effective CoC
-Derive and verify loan paydown and appreciation math for Effective CoC
-The math is verified — cumulative principal through year 30 equals the full $180k loan exactly, confirming the amortization is correct. Now let me add these calculations to computeMetrics. I'll add appreciation rate and holding year as inputs:
-
-
-Add appreciation and loan paydown calculations plus Effective CoC to computeMetrics
-Add appreciation and loan paydown calculations plus Effective CoC to computeMetrics
-Now add the "Return Assumptions" input fields on the Calculator tab. I'll add them in the Operating Expenses section after "Your Benchmarks". Let me find that spot:
-
-
-Viewed a file, edited a file
-Viewed a file, edited a file
-Now add two Effective CoC result cards in the Investment Results section. Let me find the results stack:
-
-
-Ran a command, viewed a file, edited a file
-Ran a command, viewed a file, edited a file
-Now wire up the calc() function to read the new inputs and populate the Effective CoC cards. Let me find the inp object and results section in calc():
-
-
-Edited 2 files, ran a command
-Edited 2 files, ran a command
-Now the My Properties tab. I need to: (1) pass appreciation/year into property calcs, (2) add Effective CoC to each property card, (3) add monthly & annual expense + financing debt breakdown.
-
-First, the property form needs appreciation/year fields. But to keep the form simple, I'll use a sensible default (2% appreciation, year 1) stored per-property, with the option to set them. Let me add those to the form. Let me view the form's expenses section end:
-
-
-Viewed a file, edited a file
-Viewed a file, edited a file
-Now update the JS: openPropForm (load f-appr/f-year), saveProp (store them), and propToInputs (pass them through). Let me update each:
-
-
-Edited 4 files
-Edited 4 files
-Now update the property card rendering to add Effective CoC and the monthly/annual expense + debt breakdown. Let me view the current card template:
-
-
-Ran a command, viewed a file
-Ran a command, viewed a file
-Now I'll rewrite the card template to add a second metrics row (with Effective CoC) and an expense + debt breakdown block. I need a CSS class for a 4-up metrics row and the expense breakdown. Let me update the card first:
-
-
-Enhance property card with Effective CoC and monthly/annual expense + debt breakdown
-Enhance property card with Effective CoC and monthly/annual expense + debt breakdown
-Now add CSS for the expense table. Let me add it near the prop styles:
-
-
-Add CSS for the expense breakdown table in property cards
-Add CSS for the expense breakdown table in property cards
-Now run full integrity and logic verification:
-
-
-Full integrity check
-Full integrity check
-All structural checks pass. Now let me verify the Effective CoC computation end-to-end by porting the exact JS logic and checking against my earlier hand-calculation:
-
-
-Verify Effective CoC matches hand calculations for mortgage and cash
-Verify Effective CoC matches hand calculations for mortgage and cash
-All Effective CoC calculations verify correctly:
-
-Mortgage Year 5 matches my earlier hand-calc exactly (25.31% / 24.66%)
-Year 1 mortgage: 24.05% (15.13% cash flow + appreciation + paydown — leverage makes appreciation powerful)
-Cash Year 1: 11.46% with $0 paydown correctly handled, and the lower figure reflects the much larger capital base
-The financial story is correct: the mortgaged property shows a higher Effective CoC because the $4,800 appreciation is earned on the full property value but measured against a much smaller cash investment — that's the leverage effect working as it should.
-
-Let me do a final structural smoke test and deliver:
-
-
-Final smoke test
-Final smoke test
-Note: modal-foot appears 3 times because it's referenced in CSS (.modal-foot and .modal-foot .btn) plus the one HTML instance — that's correct, not a duplicate. Everything checks out.
-
-
-Presented file
-Presented file
-All three changes are done and verified.
-
-1. Effective CoC on the Calculator tab
-
-A new "Return Assumptions" input group lets you set Annual Appreciation (default 2%) and the Year to Evaluate. Two new result cards appear:
-
-Effective CoC (Year N) — the highlighted card showing total return for your selected year: cash flow + that year's appreciation + that year's loan paydown, all over cash invested. It breaks down the three components so you can see exactly what's driving it.
-Effective CoC (avg thru Yr N) — the annualized average from purchase through your selected year, which smooths the early years.
-On the default property at Year 1, plain Cash-on-Cash is 15.13% but Effective CoC jumps to 24.05% — because the $4,800 appreciation and $2,210 principal paydown are real wealth gains the cash-flow number ignores. This is verified exact against amortization math (cumulative principal hits the full loan at year 30 precisely).
-
-2. Effective CoC + expense/debt breakdown on My Properties
-
-Each property card now shows a second metrics row with Effective CoC (year), Effective CoC (avg), and the 1% rule — plus a clean Monthly / Annual table splitting operating expenses from financing debt service, with a total-outgoings row. Cash purchases correctly show "—" for debt and $0 paydown. The property form gained its own appreciation and year fields, stored per-property.
-
-3. Add Property form bug — fixed
-
-The cause was the modal anchoring to the bottom of the screen (flex-end) combined with a tall form, so it opened pre-scrolled to the middle — which is why you saw it starting around the Miscellaneous field. Fixed three ways: the modal now uses a fixed height with the header pinned (sticky) at the top, and the scroll position explicitly resets to the top every time you open it. You'll now always see "Identification → Property Name" first.
-
-To publish: replace index.html in your GitHub repo with this file, commit, and it's live in ~60 seconds. Whenever you're ready with the property list, send it over and I'll load them in.
-
-
-Roi calculator
-Code · HTML 
-ok great I want this to be uploaded by git for code management and  then publish in the bove link how do I do that
-
-3:51 PM
-Here are the exact steps to push this to Git and publish it to your live GitHub Pages link.
-
-First, download the roi-calculator.html file I just gave you to your computer if you haven't already.
-
-The key thing to remember: GitHub Pages serves the file named index.html, so the file has to be named index.html in your repo (not roi-calculator.html).
-
-Option A — Terminal (Git command line)
-This is the proper "code management" route you asked about.
-
-Step 1 — Open a terminal and navigate to a working folder
-
-bash
-cd ~/Documents          # or wherever you want the repo to live
-Step 2 — Clone your existing repo (first time only)
-
-bash
-git clone https://github.com/geosclutter-alt/roi-calculator.git
-cd roi-calculator
-If you've already cloned it before, just cd into it and run git pull to get the latest:
-
-bash
-cd roi-calculator
-git pull origin main
-Step 3 — Copy the new file in, named index.html
-
-bash
-# Adjust the source path to wherever you downloaded the file
-cp ~/Downloads/roi-calculator.html ./index.html
-Step 4 — Stage, commit, and push
-
-bash
-git add index.html
-git commit -m "Add cash purchase toggle, effective CoC, and My Properties tab"
-git push origin main
-Step 5 — Wait ~60 seconds
-
-GitHub Pages auto-rebuilds. Refresh https://geosclutter-alt.github.io/roi-calculator/ and your updates are live.
-
-Option B — Browser upload (no terminal)
-If you'd rather skip the command line this one time:
-
-Go to github.com/geosclutter-alt/roi-calculator
-Click on the existing index.html → click the pencil (Edit) icon
-Open your downloaded roi-calculator.html in a text editor, select all (Ctrl/Cmd+A), copy
-Back in GitHub, select all the old content in the editor and paste the new content over it
-Scroll down → Commit changes → "Commit directly to main" → Commit changes
-Wait ~60 seconds, refresh your live URL
-The browser route is simpler for a one-file update, but the terminal route is what gives you real version history and is worth getting comfortable with since you're building a habit of code management.
-
-A note on your future workflow: Once the repo is cloned locally, your recurring update cycle is just three commands every time you change the file:
-
-bash
-git add index.html
-git commit -m "describe what changed"
-git push origin main
-That's it. Each commit becomes a restore point you can roll back to if a change breaks something — which is exactly why putting this calculator under Git is a good move as it grows.
-
-Want me to also show you how to set up Claude Code on this repo so you can make future edits to the calculator through Claude directly, with the commits handled for you?
-
-I usually work from my laptop and my PC .. how do i maintain consistency across these 2 devices on github
-
-4:13 PM
-Good question — this is exactly what Git is built for. The core principle is simple: GitHub is the single source of truth, and both devices sync to it. Neither device talks to the other directly; they both push to and pull from GitHub.
-
-Here's the workflow to keep them consistent.
-
-One-time setup on each device
-
-On both your laptop and PC, clone the repo once:
-
-bash
-cd ~/Documents
-git clone https://github.com/geosclutter-alt/roi-calculator.git
-cd roi-calculator
-Now both machines have a local copy linked to the same GitHub repo.
-
-The golden rule: pull before you start, push when you finish
-
-This is the entire discipline in two habits.
-
-When you sit down at a device (start of session):
-
-bash
-git pull origin main
-This pulls down anything you pushed from the other device. Always do this first, before making any edits.
-
-When you finish making changes:
-
-bash
-git add .
-git commit -m "describe what you changed"
-git push origin main
-This sends your changes up to GitHub so the other device can get them next time.
-
-A concrete example of your two-device day
-
-Morning on your PC:
-
-bash
-git pull origin main          # get latest
-# ... edit the calculator ...
-git add .
-git commit -m "tweak appreciation default"
-git push origin main          # send it up
-Evening on your laptop:
-
-bash
-git pull origin main          # pulls in the morning's PC changes
-# ... make more edits ...
-git add .
-git commit -m "fix property card layout"
-git push origin main
-Next morning back on the PC, git pull brings down the laptop's evening work. Both devices stay perfectly in sync as long as you pull-before and push-after.
-
-What happens if you forget to pull first?
-
-If you edit on your laptop without pulling the PC's latest changes, then try to push, Git will reject it with a message like "Updates were rejected because the remote contains work that you do not have locally." This is Git protecting you. The fix:
-
-bash
-git pull origin main
-If the two sets of changes touched different parts of the file, Git merges them automatically — done. If they touched the same lines, you get a merge conflict, which sounds scary but just means Git marks both versions in the file and asks you to pick. For a single-file project like this, conflicts are rare if you stick to the pull-first habit.
-
-Practical tips to avoid friction
-
-The biggest source of trouble is forgetting to push before walking away from a device. A few ways to stay clean:
-
-Always end a work session with a push, even if the change is small — an unpushed commit on your PC is invisible to your laptop. Think of git push as "saving to the cloud."
-
-If you're ever unsure what state a device is in, run git status — it tells you whether you have uncommitted changes, and whether you're ahead of or behind GitHub.
-
-If you started editing and realize you forgot to pull first, and you haven't committed yet, you can stash your work, pull, then reapply:
-
-bash
-git stash
-git pull origin main
-git stash pop
-Authentication on both devices
-
-Each device needs to authenticate to GitHub independently. Whichever method you set up earlier (SSH key or Personal Access Token), you'll need to do it on the second device too — SSH keys are per-machine, so generate a separate key on your second device and add it to GitHub, or use the same token. This is a one-time step per machine.
-
-The mental model to hold onto:
-
-GitHub is the hub. Your PC and laptop are spokes. They never sync to each other — they each sync to the hub. Pull from the hub when you arrive, push to the hub when you leave. Do that consistently and the two devices will never drift apart.
-
-Want me to walk through setting up the SSH key on your second device, or show you how to handle a merge conflict if one ever comes up?
-
-1781900307667_image.png
-got the following on my Chromebook terminal.. tell me what do next
-
-4:18 PM
-Good progress — the clone worked perfectly. The only error is a small typo: you typed cd roi-calculator~ (with a tilde ~ at the end) instead of cd roi-calculator. Run these commands one at a time:
-
-Step 1 — Get into the repo folder
-
-bash
-cd roi-calculator
-Step 2 — Confirm you're in the right place
-
-bash
-ls
-You should see index.html and README.md listed.
-
-Step 3 — Copy your new file in
-
-You need to get the roi-calculator.html file I gave you onto this Chromebook. A few ways depending on what's easier for you:
-
-If it's in your Google Drive: Open the Files app, find it in Drive, and note its path — then use cp to copy it. Chromebook Linux files are usually under ~/ and Drive files appear under /mnt/chromeos/GoogleDrive/...
-Easiest option — just paste the content directly:
-bash
-# This creates index.html and opens a paste-in editor
-cat > index.html
-Then paste the entire file contents and press Ctrl+D to save.
-
-Step 4 — Push to GitHub
-
-bash
-git add index.html
-git commit -m "Add cash toggle, effective CoC, My Properties tab"
-git push origin main
-It will ask for your GitHub username and password — use your Personal Access Token as the password (not your GitHub account password).
-
-Which file-transfer method works best for you right now? If you tell me where the downloaded file ended up (Google Drive, Downloads folder, etc.) I can give you the exact cp command to get it into the repo folder.
-
-
-
-
-
-
-
-Claude is AI and can make mistakes. Please double-check responses.
-
-
-Roi calculator · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1418,7 +9,7 @@ Roi calculator · HTML
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
 :root {
   --green: #2D6A4F;
   --green-light: #52B788;
@@ -1439,7 +30,7 @@ Roi calculator · HTML
   --serif: 'DM Serif Display', serif;
   --mono: 'DM Mono', monospace;
 }
- 
+
 body {
   font-family: var(--sans);
   background: var(--surface);
@@ -1449,7 +40,7 @@ body {
   line-height: 1.55;
   -webkit-text-size-adjust: 100%;
 }
- 
+
 /* ── Header ── */
 header {
   background: var(--green);
@@ -1480,7 +71,7 @@ header p {
   font-weight: 300;
   position: relative;
 }
- 
+
 /* ── Sticky results bar ── */
 .sticky-bar {
   position: sticky;
@@ -1526,13 +117,13 @@ header p {
 .sb-go { background: rgba(82,183,136,.3); color: #B7E4C7; }
 .sb-no { background: rgba(192,57,43,.3); color: #FDEDEB; }
 .sb-na { background: rgba(255,255,255,.1); color: rgba(255,255,255,.4); }
- 
+
 /* ── Main layout ── */
 main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
- 
+
 /* ── Collapsible sections ── */
 .section { margin-bottom: .625rem; }
- 
+
 .sec-toggle {
   width: 100%;
   display: flex;
@@ -1553,7 +144,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
   border-bottom-color: transparent;
 }
 .sec-toggle:active { background: var(--surface); }
- 
+
 .sec-num {
   width: 22px; height: 22px;
   border-radius: 50%;
@@ -1584,7 +175,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
   transition: transform .25s ease;
 }
 .sec-toggle.open .sec-chevron { transform: rotate(180deg); }
- 
+
 .sec-body {
   background: var(--white);
   border: 1px solid var(--border);
@@ -1596,7 +187,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
 }
 .sec-body.open { max-height: 9999px; }
 .sec-inner { padding: 1rem; }
- 
+
 /* ── Scenario tabs ── */
 .tabs {
   display: flex;
@@ -1618,7 +209,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
   -webkit-tap-highlight-color: transparent;
 }
 .tab.active { background: var(--green); border-color: var(--green); color: white; }
- 
+
 /* ── Fields ── */
 .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: .875rem; }
 .field:last-child { margin-bottom: 0; }
@@ -1646,7 +237,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
 .field input.ig { border-left: 3px solid var(--green-light); background: #F6FBF7; }
 .field input.ig:focus { background: var(--white); }
 .field .hint { font-size: 11.5px; color: var(--ink-4); line-height: 1.4; }
- 
+
 /* ── Field group divider ── */
 .field-group-title {
   font-size: 10.5px;
@@ -1659,7 +250,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
   border-bottom: 1px solid var(--border);
 }
 .field-group-title:first-child { margin-top: 0; }
- 
+
 /* ── Auto-calc rows ── */
 .ac-row {
   display: flex;
@@ -1674,7 +265,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
 .ac-hint { font-size: 11px; color: var(--ink-4); display: block; margin-top: 2px; line-height: 1.35; }
 .ac-val { font-family: var(--mono); font-size: 14px; font-weight: 500; color: var(--ink); white-space: nowrap; padding-left: 8px; }
 .ac-val.bold { font-weight: 600; }
- 
+
 /* ── Result cards (stacked on mobile) ── */
 .result-stack { display: flex; flex-direction: column; gap: .75rem; }
 .result-card {
@@ -1741,7 +332,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
 .badge-go { background: var(--green-pale); color: var(--green); }
 .badge-no { background: var(--red-pale); color: var(--red); }
 .badge-neutral { background: var(--amber-pale); color: var(--amber); }
- 
+
 /* ── Operating summary ── */
 .op-row {
   display: flex;
@@ -1783,7 +374,7 @@ main { padding: .75rem .875rem 5rem; max-width: 640px; margin: 0 auto; }
   padding: 8px 0 4px;
   border-bottom: 1px solid var(--border);
 }
- 
+
 /* ── Footer ── */
 footer {
   text-align: center;
@@ -1794,10 +385,10 @@ footer {
   max-width: 640px;
   margin: 0 auto;
 }
- 
+
 /* ── Util ── */
 .hidden { display: none !important; }
- 
+
 /* ── Desc text ── */
 .sec-desc {
   font-size: 12.5px;
@@ -1805,7 +396,7 @@ footer {
   line-height: 1.45;
   margin-bottom: .875rem;
 }
- 
+
 /* ── Top-level app tabs ── */
 .app-tabs {
   display: flex;
@@ -1831,7 +422,7 @@ footer {
   color: white;
   border-bottom-color: white;
 }
- 
+
 /* ── Cash/Mortgage toggle ── */
 .toggle-row {
   display: flex;
@@ -1857,7 +448,7 @@ footer {
   border-color: var(--green);
   color: white;
 }
- 
+
 /* ── Properties tab ── */
 .prop-actions {
   display: flex;
@@ -1879,7 +470,7 @@ footer {
 .btn-secondary { background: var(--white); color: var(--ink-2); border: 1px solid var(--border-strong); }
 .btn-danger { background: var(--red-pale); color: var(--red); }
 .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 7px; }
- 
+
 .prop-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -1907,7 +498,7 @@ footer {
 }
 .prop-tag.cash { background: var(--amber-pale); color: var(--amber); }
 .prop-tag.mortgage { background: var(--green-pale); color: var(--green); }
- 
+
 .prop-metrics {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -1947,7 +538,7 @@ footer {
   border-top: 1px solid var(--border);
 }
 .prop-detail-line { font-size: 11.5px; color: var(--ink-3); }
- 
+
 .expense-block { margin: .5rem 0; }
 .expense-table { width: 100%; border-collapse: collapse; font-size: 12px; }
 .expense-table th {
@@ -1969,7 +560,7 @@ footer {
 }
 .expense-table td:first-child { text-align: left; font-family: var(--sans); color: var(--ink-3); }
 .expense-table .expense-total td { font-weight: 600; color: var(--ink); border-top: 1.5px solid var(--border-strong); }
- 
+
 /* Portfolio summary banner */
 .portfolio-summary {
   background: linear-gradient(135deg, var(--green) 0%, #235340 100%);
@@ -2009,7 +600,7 @@ footer {
   display: block;
   margin-top: 2px;
 }
- 
+
 /* Empty state */
 .empty-state {
   text-align: center;
@@ -2018,7 +609,7 @@ footer {
 }
 .empty-state svg { width: 48px; height: 48px; color: var(--ink-4); margin-bottom: .75rem; }
 .empty-state p { font-size: 13.5px; margin-bottom: 1rem; }
- 
+
 /* Modal form */
 .modal-overlay {
   position: fixed;
@@ -2066,21 +657,21 @@ footer {
 </style>
 </head>
 <body>
- 
+
 <header>
   <h1>Property ROI Calculator</h1>
   <p>Cap rate · Cash-on-cash · 1% rule · Based on your spreadsheet formulas</p>
 </header>
- 
+
 <!-- APP TABS -->
 <div class="app-tabs">
   <button class="app-tab active" id="apptab-calc" onclick="switchTab('calc')">Calculator</button>
   <button class="app-tab" id="apptab-props" onclick="switchTab('props')">My Properties</button>
 </div>
- 
+
 <!-- ===== CALCULATOR TAB ===== -->
 <div id="tab-calc-view">
- 
+
 <!-- STICKY RESULTS BAR -->
 <div class="sticky-bar">
   <div class="sticky-metric">
@@ -2099,9 +690,9 @@ footer {
     <span class="sticky-badge sb-na" id="sb-pct1-badge">—</span>
   </div>
 </div>
- 
+
 <main>
- 
+
   <!-- 1. RENTAL SCENARIO -->
   <div class="section">
     <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
@@ -2120,7 +711,7 @@ footer {
       </div>
     </div>
   </div>
- 
+
   <!-- 2. INCOME & PURCHASE -->
   <div class="section">
     <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
@@ -2146,7 +737,7 @@ footer {
           <input class="ig" type="number" id="rent3" value="1000" inputmode="numeric" oninput="calc()">
           <span class="hint">Third unit rent. Used at 11.5×/yr.</span>
         </div>
- 
+
         <div class="field-group-title">Purchase &amp; Financing</div>
         <div class="toggle-row">
           <button class="toggle-btn active" id="toggle-mortgage" onclick="setPurchaseMode('mortgage')">🏦 Mortgage</button>
@@ -2170,7 +761,7 @@ footer {
       </div>
     </div>
   </div>
- 
+
   <!-- 3. OPERATING EXPENSES -->
   <div class="section">
     <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
@@ -2196,7 +787,7 @@ footer {
           <input class="ig" type="number" id="mgmtPct" value="8" step="0.5" inputmode="decimal" oninput="calc()">
           <span class="hint">Typically 8–10% of Rent 1. Set to 0 if self-managing.</span>
         </div>
- 
+
         <div id="mortgage-fields-group">
         <div class="field-group-title">Mortgage</div>
         <div class="field">
@@ -2209,7 +800,7 @@ footer {
           <input class="ig" type="number" id="term" value="30" inputmode="numeric" oninput="calc()">
         </div>
         </div>
- 
+
         <div class="field-group-title">Rate Assumptions</div>
         <div class="field">
           <label>Maintenance Reserve (%/yr of offer price)</label>
@@ -2226,7 +817,7 @@ footer {
           <input class="ig" type="number" id="closingRate" value="1.5" step="0.1" inputmode="decimal" oninput="calc()">
           <span class="hint">Covers lender fees, title, attorney, recording. Typically 1.5–3%.</span>
         </div>
- 
+
         <div class="field-group-title">Your Benchmarks</div>
         <div class="field">
           <label>Target Cap Rate (%)</label>
@@ -2238,7 +829,7 @@ footer {
           <input class="ig" type="number" id="minCash" value="9" step="0.5" inputmode="decimal" oninput="calc()">
           <span class="hint">Minimum acceptable cash-on-cash return. Common target: 8–12%.</span>
         </div>
- 
+
         <div class="field-group-title">Return Assumptions (for Effective CoC)</div>
         <div class="field">
           <label>Annual Appreciation (%/yr)</label>
@@ -2253,7 +844,7 @@ footer {
       </div>
     </div>
   </div>
- 
+
   <!-- 4. AUTO-CALCULATED INPUTS -->
   <div class="section">
     <button class="sec-toggle" onclick="toggleSection(this)" aria-expanded="false">
@@ -2304,7 +895,7 @@ footer {
       </div>
     </div>
   </div>
- 
+
   <!-- 5. INVESTMENT RESULTS -->
   <div class="section">
     <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
@@ -2315,7 +906,7 @@ footer {
     <div class="sec-body open">
       <div class="sec-inner">
         <div class="result-stack">
- 
+
           <div class="result-card highlight-card" id="solver-card">
             <div class="result-top">
               <span class="result-label">💡 Possible Offer Price</span>
@@ -2325,7 +916,7 @@ footer {
             <div class="result-desc" id="solver-desc">The highest price you can offer and still hit your Target Cash-on-Cash return. Offer at or below this to meet your goal — everything else (rents, rates, down payment) held at your current inputs.</div>
             <div id="solver-note"></div>
           </div>
- 
+
           <div class="result-card" id="capRate-card">
             <div class="result-top">
               <span class="result-label">Cap Rate</span>
@@ -2335,7 +926,7 @@ footer {
             <div class="result-desc">NOI ÷ (price + closing + renovation). Measures the property's unlevered return — independent of how you finance it.</div>
             <div id="capRate-verdict"></div>
           </div>
- 
+
           <div class="result-card" id="coc-card">
             <div class="result-top">
               <span class="result-label">Cash-on-Cash Return</span>
@@ -2345,7 +936,7 @@ footer {
             <div class="result-desc">GOI ÷ total cash at closing. Your actual return on invested dollars — mortgage included. Comparable to stocks or REITs.</div>
             <div id="coc-verdict"></div>
           </div>
- 
+
           <div class="result-card highlight-card" id="effcoc-card">
             <div class="result-top">
               <span class="result-label">⚡ Effective CoC <span id="effcoc-year-label">(Year 1)</span></span>
@@ -2355,7 +946,7 @@ footer {
             <div class="result-desc">Total return for the selected year: cash flow + appreciation + loan paydown, all ÷ cash invested. This is your true wealth-building rate, not just the cash-flow slice.</div>
             <div id="effcoc-breakdown" style="font-size:11.5px;color:var(--ink-3);margin-top:.4rem;line-height:1.5"></div>
           </div>
- 
+
           <div class="result-card" id="effcocavg-card">
             <div class="result-top">
               <span class="result-label">Effective CoC <span id="effcocavg-year-label">(avg thru Yr 1)</span></span>
@@ -2363,7 +954,7 @@ footer {
             <div class="result-value" id="effcocavg-out">—</div>
             <div class="result-desc">Annualized average from purchase through your selected year. Smooths out early years where principal paydown is small and appreciation is still compounding.</div>
           </div>
- 
+
           <div class="result-card" id="pct1-card">
             <div class="result-top">
               <span class="result-label">1% Rule</span>
@@ -2373,12 +964,12 @@ footer {
             <div class="result-desc">Total monthly rent ÷ all-in cost. Quick screen: if total monthly rent ≥ 1% of total cost, the deal often cash flows.</div>
             <div id="pct1-verdict"></div>
           </div>
- 
+
         </div>
       </div>
     </div>
   </div>
- 
+
   <!-- 6. INCOME & OPERATING SUMMARY -->
   <div class="section">
     <button class="sec-toggle" onclick="toggleSection(this)" aria-expanded="false">
@@ -2389,9 +980,9 @@ footer {
     <div class="sec-body">
       <div class="sec-inner">
         <p class="sec-desc">Annual income and expense waterfall — from gross rent down to cash in your pocket. Each line feeds the results above.</p>
- 
+
         <div class="op-section-label">Gross Income</div>
- 
+
         <div class="op-row">
           <div class="op-left">
             <div class="op-label">Annual Rent — Unit 1</div>
@@ -2413,9 +1004,9 @@ footer {
           </div>
           <div class="op-val" id="annRent3-out">—</div>
         </div>
- 
+
         <div class="op-section-label" style="margin-top:6px">Deductions to NOI</div>
- 
+
         <div class="op-row">
           <div class="op-left">
             <div class="op-label">Less: HOA</div>
@@ -2437,7 +1028,7 @@ footer {
           </div>
           <div class="op-val neg" id="taxins-row-out">—</div>
         </div>
- 
+
         <div class="op-subtotal op-row">
           <div class="op-left">
             <div class="op-label">= Net Operating Income (NOI)</div>
@@ -2445,10 +1036,10 @@ footer {
           </div>
           <div class="op-val" id="noi-out">—</div>
         </div>
- 
+
         <div class="op-spacer"></div>
         <div class="op-section-label">From NOI → GOI (additional deductions for cash flow)</div>
- 
+
         <div class="op-row">
           <div class="op-left">
             <div class="op-label">Less: Property Management</div>
@@ -2470,7 +1061,7 @@ footer {
           </div>
           <div class="op-val neg" id="mortgage-row-out">—</div>
         </div>
- 
+
         <div class="op-subtotal op-row">
           <div class="op-left">
             <div class="op-label">= Gross Operating Income (GOI)</div>
@@ -2478,14 +1069,14 @@ footer {
           </div>
           <div class="op-val" id="goi-out">—</div>
         </div>
- 
+
       </div>
     </div>
   </div>
- 
+
 </main>
 </div><!-- end tab-calc-view -->
- 
+
 <!-- ===== PROPERTIES TAB ===== -->
 <div id="tab-props-view" class="hidden">
   <main>
@@ -2496,13 +1087,13 @@ footer {
         <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">⬆ Restore</button>
         <input type="file" id="import-file" accept="application/json" class="hidden" onchange="importProps(event)">
       </div>
- 
+
       <div id="portfolio-summary-container"></div>
       <div id="prop-list"></div>
     </div>
   </main>
 </div>
- 
+
 <!-- PROPERTY FORM MODAL -->
 <div id="prop-modal" class="modal-overlay hidden">
   <div class="modal">
@@ -2510,7 +1101,7 @@ footer {
       <h2 id="modal-title">Add Property</h2>
       <button class="modal-close" onclick="closePropForm()">×</button>
     </div>
- 
+
     <div class="field-group-title">Identification</div>
     <div class="field">
       <label>Property Name / Address</label>
@@ -2520,7 +1111,7 @@ footer {
       <label>Type</label>
       <input class="ig" type="text" id="f-type" placeholder="e.g. Single-family, Duplex">
     </div>
- 
+
     <div class="field-group-title">Purchase</div>
     <div class="toggle-row">
       <button class="toggle-btn active" id="f-toggle-mortgage" onclick="setFormMode('mortgage')">🏦 Mortgage</button>
@@ -2546,7 +1137,7 @@ footer {
       <label>Repair / Renovation ($)</label>
       <input class="ig" type="number" id="f-reno" value="0" inputmode="numeric">
     </div>
- 
+
     <div class="field-group-title">Rent (monthly)</div>
     <div class="field">
       <label>Rent — Unit 1 ($)</label>
@@ -2560,7 +1151,7 @@ footer {
       <label>Rent — Unit 3 ($, optional)</label>
       <input class="ig" type="number" id="f-rent3" value="0" inputmode="numeric">
     </div>
- 
+
     <div class="field-group-title">Expenses (defaults applied — adjust if needed)</div>
     <div class="field">
       <label>HOA ($/month)</label>
@@ -2586,7 +1177,7 @@ footer {
       <label>Closing Costs (%)</label>
       <input class="ig" type="number" id="f-closing" value="1.5" step="0.1" inputmode="decimal">
     </div>
- 
+
     <div class="field-group-title">Return Assumptions (for Effective CoC)</div>
     <div class="field">
       <label>Annual Appreciation (%/yr)</label>
@@ -2596,18 +1187,18 @@ footer {
       <label>Year to Evaluate</label>
       <input class="ig" type="number" id="f-year" value="1" step="1" min="1" inputmode="numeric">
     </div>
- 
+
     <div class="modal-foot">
       <button class="btn btn-secondary" onclick="closePropForm()">Cancel</button>
       <button class="btn btn-primary" onclick="saveProp()">Save Property</button>
     </div>
   </div>
 </div>
- 
+
 <footer>
   Based on your ROI_Calculations spreadsheet ("What to Buy" tab) · For informational purposes only
 </footer>
- 
+
 <script>
 // ═══════════════════════════════════════════════════════════
 //  PURE COMPUTE CORE — single source of truth for all metrics
@@ -2617,7 +1208,7 @@ function pmtMonthly(rate, nper, pv) {
   if (rate === 0) return -pv / nper;
   return -(pv * rate * Math.pow(1 + rate, nper)) / (Math.pow(1 + rate, nper) - 1);
 }
- 
+
 // inp = { price, isCash, downPct, rate, term, reno,
 //         rent1, rent2, rent3, units (1|2|3),
 //         hoa, misc, mgmtPct, maintRate, taxInsRate, closingRate,
@@ -2627,7 +1218,7 @@ function computeMetrics(inp) {
   const isCash = !!inp.isCash;
   const downPct = isCash ? 1 : (inp.downPct || 0);     // cash = 100% down
   const reno = inp.reno || 0;
- 
+
   const annMaint  = price * (inp.maintRate || 0);
   const annTaxIns = price * (inp.taxInsRate || 0);
   const downAmt   = price * downPct;
@@ -2638,7 +1229,7 @@ function computeMetrics(inp) {
   const monthlyPI = isCash ? 0 : Math.abs(pmtMonthly(mRate, nper, loanAmt));
   const annMortgage = monthlyPI * 12;
   const cashInvested = downAmt + closingAmt + reno;     // for cash, downAmt = full price
- 
+
   const r1 = inp.rent1 || 0, r2 = inp.rent2 || 0, r3 = inp.rent3 || 0;
   const units = inp.units || 1;
   const annRent1 = r1 * 11;
@@ -2646,21 +1237,21 @@ function computeMetrics(inp) {
   const annRent3 = r3 * 11.5;
   const annHOA = (inp.hoa || 0) * 12;
   const annMisc = (inp.misc || 0) * 12;
- 
+
   let monthlyRentTotal = r1, baseRent = annRent1;
   if (units === 2) { monthlyRentTotal = r1 + r2; baseRent = annRent1 + annRent2; }
   else if (units === 3) { monthlyRentTotal = r1 + r2 + r3; baseRent = annRent1 + annRent2 + annRent3; }
- 
+
   const annMgmt = monthlyRentTotal * (inp.mgmtPct || 0) * 12;
- 
+
   const noi = baseRent - annHOA - annTaxIns - annMaint;
   const goi = baseRent - annHOA - annMaint - annTaxIns - annMgmt - annMisc - annMortgage;
- 
+
   const denom = price + closingAmt + reno;
   const capRate = denom > 0 ? noi / denom : NaN;
   const coc = cashInvested > 0 ? goi / cashInvested : NaN;
   const pct1 = denom > 0 ? monthlyRentTotal / denom : NaN;
- 
+
   // Reverse solver: max price for target CoC (only meaningful for mortgage; still valid for cash)
   const kAnnual = isCash ? 0 : ((mRate === 0)
     ? (1 / nper) * 12
@@ -2672,11 +1263,11 @@ function computeMetrics(inp) {
   const minCoc = inp.minCoc || 0;
   const denomSolver = Bc + minCoc * Cc;
   const solvedP = denomSolver !== 0 ? (A - minCoc * reno) / denomSolver : NaN;
- 
+
   // ── Effective CoC: cash flow + appreciation + loan paydown ──
   const apprRate = inp.apprRate || 0;        // e.g. 0.02
   const year = Math.max(1, Math.round(inp.year || 1));
- 
+
   // Remaining loan balance after `months` payments
   function balAfter(months) {
     if (isCash || loanAmt <= 0) return 0;
@@ -2687,18 +1278,18 @@ function computeMetrics(inp) {
   // Principal paid during the selected year, and cumulative through it
   const principalThisYear = isCash ? 0 : (balAfter((year - 1) * 12) - balAfter(year * 12));
   const principalThroughYear = isCash ? 0 : (loanAmt - balAfter(year * 12));
- 
+
   // Appreciation: that year's gain, and cumulative through it (compounding on full value)
   const apprThisYear = price * Math.pow(1 + apprRate, year) - price * Math.pow(1 + apprRate, year - 1);
   const apprThroughYear = price * Math.pow(1 + apprRate, year) - price;
- 
+
   // Point-in-time effective CoC for the selected year
   const effCocYear = cashInvested > 0
     ? (goi + apprThisYear + principalThisYear) / cashInvested : NaN;
   // Annualized average from purchase through the selected year
   const effCocAvg = cashInvested > 0
     ? ((goi * year + apprThroughYear + principalThroughYear) / year) / cashInvested : NaN;
- 
+
   return {
     annMaint, annTaxIns, downAmt, closingAmt, loanAmt, monthlyPI, annMortgage,
     cashInvested, annRent1, annRent2, annRent3, annHOA, annMisc, annMgmt,
@@ -2707,7 +1298,7 @@ function computeMetrics(inp) {
     effCocYear, effCocAvg, year
   };
 }
- 
+
 // ─── Formatting helpers ───
 function dollar(n, dec) {
   dec = dec || 0;
@@ -2721,13 +1312,13 @@ function pct(n, dec) {
   if (!isFinite(n)) return '—';
   return (n * 100).toFixed(dec) + '%';
 }
- 
+
 // ═══════════════════════════════════════════════════════════
 //  CALCULATOR TAB
 // ═══════════════════════════════════════════════════════════
 let scenario = 'rent1';
 let purchaseMode = 'mortgage';
- 
+
 function toggleSection(btn) {
   const body = btn.nextElementSibling;
   const isOpen = btn.classList.contains('open');
@@ -2739,14 +1330,14 @@ function tog(id, show) { document.getElementById(id).classList.toggle('hidden', 
 function sv(id, val) { const e = document.getElementById(id); if (e) e.textContent = val; }
 function negCls(id, n) { const e = document.getElementById(id); if (e) e.classList.toggle('neg', n < 0); }
 function setBadge(id, cls, text) { const el = document.getElementById(id); if (el){ el.className = 'sticky-badge ' + cls; el.textContent = text; } }
- 
+
 function setVerdict(id, cardId, pass) {
   const v = document.getElementById(id), c = document.getElementById(cardId);
   if (pass === null) { v.innerHTML = ''; c.className = 'result-card'; return; }
   if (pass) { v.innerHTML = '<span class="verdict-badge badge-go">✓ Go for it</span>'; c.className = 'result-card go'; }
   else { v.innerHTML = '<span class="verdict-badge badge-no">✗ Try a lower offer</span>'; c.className = 'result-card no'; }
 }
- 
+
 function setScenario(s) {
   scenario = s;
   document.querySelectorAll('#tab-calc-view .tabs .tab').forEach(b => b.classList.remove('active'));
@@ -2757,7 +1348,7 @@ function setScenario(s) {
   tog('rent2-row', show2);  tog('rent3-row', show3);
   calc();
 }
- 
+
 function setPurchaseMode(mode) {
   purchaseMode = mode;
   document.getElementById('toggle-mortgage').classList.toggle('active', mode === 'mortgage');
@@ -2767,7 +1358,7 @@ function setPurchaseMode(mode) {
   tog('mortgage-fields-group', mode === 'mortgage');
   calc();
 }
- 
+
 function calc() {
   const units = scenario === 'rent3' ? 3 : scenario === 'rent2' ? 2 : 1;
   const inp = {
@@ -2794,7 +1385,7 @@ function calc() {
   };
   const m = computeMetrics(inp);
   const minCap = inp.minCap, minCoc = inp.minCoc, isCash = inp.isCash;
- 
+
   // Computed values panel
   sv('maint-out', dollar(m.annMaint));
   sv('taxins-out', dollar(m.annTaxIns));
@@ -2803,7 +1394,7 @@ function calc() {
   sv('closing-out', dollar(m.closingAmt));
   sv('cashClosing-out', dollar(m.cashInvested));
   sv('sum-cash', dollar(m.cashInvested));
- 
+
   // Operating summary
   sv('annRent1-out', dollar(m.annRent1));
   sv('annRent2-out', dollar(m.annRent2));
@@ -2816,14 +1407,14 @@ function calc() {
   sv('misc-row-out', m.annMisc > 0 ? '−' + dollar(m.annMisc) : '$0');
   sv('mortgage-row-out', isCash ? '$0 (cash)' : '−' + dollar(m.annMortgage));
   sv('goi-out', dollar(m.goi)); negCls('goi-out', m.goi);
- 
+
   // Results
   sv('capRate-out', pct(m.capRate));
   sv('coc-out', pct(m.coc));
   sv('pct1-out', pct(m.pct1));
   sv('capRate-thresh', 'Target: ' + pct(minCap));
   sv('coc-thresh', 'Target: ' + pct(minCoc));
- 
+
   // Effective CoC cards
   const yLbl = m.year;
   sv('effcoc-year-label', '(Year ' + yLbl + ')');
@@ -2837,13 +1428,13 @@ function calc() {
     ' = ' + dollar(m.goi + m.apprThisYear + m.principalThisYear) + ' on ' + dollar(m.cashInvested) + ' invested';
   setVerdict('capRate-verdict', 'capRate-card', isFinite(m.capRate) ? m.capRate >= minCap : null);
   setVerdict('coc-verdict', 'coc-card', isFinite(m.coc) ? m.coc >= minCoc : null);
- 
+
   const p1pass = isFinite(m.pct1) ? m.pct1 >= 0.01 : null;
   const pv = document.getElementById('pct1-verdict'), pc = document.getElementById('pct1-card');
   if (p1pass === null) { pv.innerHTML = ''; pc.className = 'result-card'; }
   else if (p1pass) { pv.innerHTML = '<span class="verdict-badge badge-go">✓ Passes 1% rule</span>'; pc.className = 'result-card go'; }
   else { pv.innerHTML = '<span class="verdict-badge badge-neutral">↗ Below 1% — not a dealbreaker</span>'; pc.className = 'result-card'; }
- 
+
   // Solver
   sv('solver-target', 'for CoC ≥ ' + pct(minCoc));
   if (isFinite(m.solvedP) && m.solvedP > 0) {
@@ -2856,7 +1447,7 @@ function calc() {
     sv('solver-out', 'N/A');
     document.getElementById('solver-note').innerHTML = '<span class="verdict-badge badge-neutral">↗ No positive price hits this target — rents may be too low or target too high</span>';
   }
- 
+
   // Sticky bar
   sv('sb-cap', pct(m.capRate));
   sv('sb-coc', pct(m.coc));
@@ -2865,7 +1456,7 @@ function calc() {
   if (isFinite(m.coc)) setBadge('sb-coc-badge', m.coc >= minCoc ? 'sb-go' : 'sb-no', m.coc >= minCoc ? '✓ Go' : '✗ Low');
   if (isFinite(m.pct1)) setBadge('sb-pct1-badge', m.pct1 >= 0.01 ? 'sb-go' : 'sb-na', m.pct1 >= 0.01 ? '✓ Pass' : '↗ Low');
 }
- 
+
 // ═══════════════════════════════════════════════════════════
 //  APP TAB SWITCHING
 // ═══════════════════════════════════════════════════════════
@@ -2876,7 +1467,7 @@ function switchTab(tab) {
   tog('tab-props-view', tab === 'props');
   if (tab === 'props') renderProps();
 }
- 
+
 // ═══════════════════════════════════════════════════════════
 //  MY PROPERTIES TAB  (localStorage-backed)
 // ═══════════════════════════════════════════════════════════
@@ -2884,7 +1475,7 @@ const STORE_KEY = 'roiProperties_v1';
 let properties = [];
 let formMode = 'mortgage';
 let editingId = null;
- 
+
 function loadProps() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
@@ -2895,7 +1486,7 @@ function persistProps() {
   try { localStorage.setItem(STORE_KEY, JSON.stringify(properties)); }
   catch (e) { alert('Could not save to browser storage. Your changes may not persist.'); }
 }
- 
+
 function openPropForm(id) {
   editingId = id || null;
   document.getElementById('modal-title').textContent = id ? 'Edit Property' : 'Add Property';
@@ -2945,7 +1536,7 @@ function openPropForm(id) {
   if (modalEl) modalEl.scrollTop = 0;
 }
 function closePropForm() { document.getElementById('prop-modal').classList.add('hidden'); editingId = null; }
- 
+
 function setFormMode(mode) {
   formMode = mode;
   document.getElementById('f-toggle-mortgage').classList.toggle('active', mode === 'mortgage');
@@ -2953,18 +1544,18 @@ function setFormMode(mode) {
   const show = mode === 'mortgage';
   tog('f-down-field', show); tog('f-rate-field', show); tog('f-term-field', show);
 }
- 
+
 function saveProp() {
   const name = document.getElementById('f-name').value.trim();
   const price = +document.getElementById('f-price').value || 0;
   const rent1 = +document.getElementById('f-rent1').value || 0;
   if (!name) { alert('Please enter a property name or address.'); return; }
   if (price <= 0) { alert('Please enter a purchase price.'); return; }
- 
+
   const rent2 = +document.getElementById('f-rent2').value || 0;
   const rent3 = +document.getElementById('f-rent3').value || 0;
   const units = rent3 > 0 ? 3 : rent2 > 0 ? 2 : 1;
- 
+
   const prop = {
     id: editingId || ('p' + Date.now()),
     name,
@@ -2985,7 +1576,7 @@ function saveProp() {
     apprRaw: +document.getElementById('f-appr').value || 0,
     year: +document.getElementById('f-year').value || 1
   };
- 
+
   if (editingId) {
     const idx = properties.findIndex(x => x.id === editingId);
     if (idx >= 0) properties[idx] = prop;
@@ -2996,7 +1587,7 @@ function saveProp() {
   closePropForm();
   renderProps();
 }
- 
+
 function deleteProp(id) {
   const p = properties.find(x => x.id === id);
   if (!p) return;
@@ -3005,7 +1596,7 @@ function deleteProp(id) {
   persistProps();
   renderProps();
 }
- 
+
 function propToInputs(p) {
   return {
     price: p.price, isCash: p.isCash,
@@ -3023,11 +1614,11 @@ function propToInputs(p) {
     minCoc: 0
   };
 }
- 
+
 function renderProps() {
   const list = document.getElementById('prop-list');
   const summaryC = document.getElementById('portfolio-summary-container');
- 
+
   if (properties.length === 0) {
     summaryC.innerHTML = '';
     list.innerHTML = '<div class="empty-state">' +
@@ -3036,7 +1627,7 @@ function renderProps() {
       '<button class="btn btn-primary" onclick="openPropForm()">+ Add Property</button></div>';
     return;
   }
- 
+
   // Portfolio totals
   let totPrice = 0, totRentMo = 0, totNOI = 0, totGOI = 0, totCash = 0, totEquity = 0;
   const computed = properties.map(p => {
@@ -3051,7 +1642,7 @@ function renderProps() {
   });
   const portCap = totPrice > 0 ? totNOI / totPrice : NaN;
   const portCoC = totCash > 0 ? totGOI / totCash : NaN;
- 
+
   summaryC.innerHTML =
     '<div class="portfolio-summary"><h3>Portfolio — ' + properties.length + ' propert' + (properties.length === 1 ? 'y' : 'ies') + '</h3>' +
     '<div class="portfolio-grid">' +
@@ -3062,7 +1653,7 @@ function renderProps() {
     '<div class="portfolio-stat"><span class="portfolio-stat-label">Blended Cap Rate</span><span class="portfolio-stat-value">' + pct(portCap) + '</span></div>' +
     '<div class="portfolio-stat"><span class="portfolio-stat-label">Blended CoC</span><span class="portfolio-stat-value">' + pct(portCoC) + '</span></div>' +
     '</div></div>';
- 
+
   list.innerHTML = computed.map(({p, m}) => {
     const cocCls = isFinite(m.coc) && m.coc >= 0 ? 'good' : 'bad';
     const goiCls = m.goi >= 0 ? 'good' : 'bad';
@@ -3071,7 +1662,7 @@ function renderProps() {
     const tagTxt = p.isCash ? 'CASH' : 'MORTGAGE';
     const fin = p.isCash ? 'Cash purchase' :
       (p.downPctRaw + '% down @ ' + p.rateRaw + '% / ' + p.term + 'yr');
- 
+
     // Expense + financing breakdown
     const annOpEx = m.annHOA + m.annMaint + m.annTaxIns + m.annMgmt + m.annMisc; // operating expenses (no debt)
     const annDebt = m.annMortgage;
@@ -3080,7 +1671,7 @@ function renderProps() {
     const moDebt = annDebt / 12;
     const moTotal = annTotal / 12;
     const yLbl = m.year || 1;
- 
+
     return '<div class="prop-card">' +
       '<div class="prop-card-head">' +
         '<div><div class="prop-name">' + escapeHtml(p.name) + '</div>' +
@@ -3113,11 +1704,11 @@ function renderProps() {
     '</div>';
   }).join('');
 }
- 
+
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
- 
+
 // ─── Backup / Restore ───
 function exportProps() {
   if (properties.length === 0) { alert('No properties to back up yet.'); return; }
@@ -3147,12 +1738,10 @@ function importProps(event) {
   reader.readAsText(file);
   event.target.value = '';
 }
- 
+
 // ─── Init ───
 loadProps();
 calc();
 </script>
 </body>
 </html>
- 
-
