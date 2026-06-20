@@ -654,6 +654,54 @@ footer {
   display: flex; gap: 8px; margin-top: 1.25rem;
 }
 .modal-foot .btn { flex: 1; }
+
+/* ── Split layout: inputs left, results right (desktop) ── */
+.calc-layout { display: flex; flex-direction: column; }
+
+@media (max-width: 899px) {
+  /* On mobile keep current stacked order, but push Investment Results
+     to the bottom so results sit below all inputs. */
+  .calc-layout > #section-results { order: 99; margin-top: .625rem; }
+}
+
+@media (min-width: 900px) {
+  main {
+    max-width: 1140px;
+    padding: 1rem 1.25rem 5rem;
+  }
+  .calc-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    column-gap: 1.5rem;
+    align-items: start;
+  }
+  /* Every section stays in the left column by default */
+  .calc-layout > .section { grid-column: 1; }
+  /* Investment Results moves to the right column and sticks while you type */
+  .calc-layout > #section-results {
+    grid-column: 2;
+    grid-row: 1 / span 100;
+    position: sticky;
+    top: 64px;            /* clears the green sticky KPI bar */
+    align-self: start;
+    margin-bottom: 0;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .calc-layout > #section-results::-webkit-scrollbar { width: 6px; }
+  .calc-layout > #section-results::-webkit-scrollbar-track { background: transparent; }
+  .calc-layout > #section-results::-webkit-scrollbar-thumb {
+    background: var(--border-strong); border-radius: 3px;
+  }
+  /* Slightly larger result text now that we have a dedicated column */
+  .calc-layout > #section-results .result-value { font-size: 1.75rem; }
+}
+
+@media (min-width: 1100px) {
+  main { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .calc-layout { grid-template-columns: minmax(0, 1fr) 420px; column-gap: 1.75rem; }
+}
 </style>
 </head>
 <body>
@@ -692,6 +740,8 @@ footer {
 </div>
 
 <main>
+
+  <div class="calc-layout">
 
   <!-- 1. RENTAL SCENARIO -->
   <div class="section">
@@ -826,7 +876,7 @@ footer {
         </div>
         <div class="field">
           <label>Target Cash-on-Cash (%)</label>
-          <input class="ig" type="number" id="minCash" value="9" step="0.5" inputmode="decimal" oninput="calc()">
+          <input class="ig" type="number" id="minCash" value="15" step="0.5" inputmode="decimal" oninput="calc()">
           <span class="hint">Minimum acceptable cash-on-cash return. Common target: 8–12%.</span>
         </div>
 
@@ -897,7 +947,7 @@ footer {
   </div>
 
   <!-- 5. INVESTMENT RESULTS -->
-  <div class="section">
+  <div class="section" id="section-results">
     <button class="sec-toggle open" onclick="toggleSection(this)" aria-expanded="true">
       <div class="sec-num">5</div>
       <span class="sec-title">Investment Results</span>
@@ -1074,6 +1124,7 @@ footer {
     </div>
   </div>
 
+  </div><!-- /calc-layout -->
 </main>
 </div><!-- end tab-calc-view -->
 
